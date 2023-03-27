@@ -90,12 +90,11 @@ Vue3-Admin-Ts
 │  ├─ directives          # 全局指令文件
 │  ├─ enums               # 项目常用枚举
 │  ├─ hooks               # 常用 Hooks 封装
-│  ├─ languages           # 语言国际化 i18n
 │  ├─ layouts             # 框架布局模块
 │  ├─ routers             # 路由管理
 │  ├─ stores              # pinia store
 │  ├─ styles              # 全局样式文件
-│  ├─ typings             # 全局 ts 声明
+│  ├─ types               # 全局 ts 声明
 │  ├─ utils               # 常用工具库
 │  ├─ views               # 项目所有页面
 │  ├─ App.vue             # 项目主组件
@@ -253,7 +252,7 @@ Admin 模板需要的可配置参数:
 ```typeScript
 /**
  * path ==> 路由的地址，这是必须设置的，如果是个有效的 http 或者 https 链接，则点击该菜单跳转到新窗口
- * name ==> 路由的名字，这是必须设置的，如果开启了 I18n，某些路由又不想使用 I18n，则 name 以 _noUseI18n- 开头
+ * name ==> 路由的名字，这是必须设置的
  * redirect ==> 重定向到某个路由下，可选，function 使用方式请看官网：https://router.vuejs.org/zh/api/index.html#redirect
  * component ==> 视图文件路径
  * meta ==> 菜单信息

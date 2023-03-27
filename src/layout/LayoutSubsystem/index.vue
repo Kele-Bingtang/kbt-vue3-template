@@ -36,7 +36,6 @@ import MainContent from "@/layout/components/MainContent/index.vue";
 import Menu from "@/layout/components/Menu/index.vue";
 import settings from "@/config/settings";
 import Fullscreen from "@/layout/components/Header/components/Fullscreen.vue";
-import LanguageSelect from "@/layout/components/Header/components/LanguageSelect.vue";
 import LayoutSizeSelect from "@/layout/components/Header/components/LayoutSizeSelect.vue";
 import MenuSearch from "@/layout/components/Header/components/MenuSearch.vue";
 import ErrorLog from "@/layout/components/Header/components/ErrorLog.vue";

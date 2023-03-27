@@ -10,7 +10,6 @@ import App from "./App.vue";
 import router from "./router";
 import "@/styles/normalize.css"; // CSS Reset
 import directives from "@/directives/index";
-import I18n from "@/languages/index";
 // svg icons
 import "virtual:svg-icons-register";
 import SvgIcon from "@/components/SvgIcon/index.vue";
@@ -36,4 +35,4 @@ app.component("Role", Role);
 
 app.component("svg-icon", SvgIcon);
 
-app.use(I18n).use(pinia).use(router).use(directives).use(ElementPlus).mount("#app");
+app.use(pinia).use(router).use(directives).use(ElementPlus).mount("#app");

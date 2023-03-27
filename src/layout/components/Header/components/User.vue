@@ -15,14 +15,10 @@
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item @click="openSettingsDrawer" icon="Setting" v-if="showSettings">
-          <span>
-            {{ settingsLabel }}
-          </span>
+          <span>我的设置</span>
         </el-dropdown-item>
         <el-dropdown-item divided @click="logout" icon="Back">
-          <span>
-            {{ logOutLabel }}
-          </span>
+          <span>退出登录</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -32,7 +28,6 @@
 <script setup lang="ts" name="User">
 import { useSettingsStore } from "@/stores/settings";
 import { useUserStore } from "@/stores/user";
-import { useI18n } from "vue-i18n";
 import defaultAvatar from "@/assets/images/default.png";
 import { ArrowDownBold } from "@element-plus/icons-vue";
 import mittBus from "@/utils/layout/mittBus";
@@ -43,7 +38,6 @@ const prop = withDefaults(defineProps<{ showAvatar?: boolean }>(), {
   showAvatar: true,
 });
 
-const { t } = useI18n();
 const userStore = useUserStore();
 const settingsStore = useSettingsStore();
 const route = useRoute();
@@ -51,15 +45,6 @@ const router = useRouter();
 
 const user = computed(() => userStore.userInfo);
 const showSettings = computed(() => settingsStore.showSettings);
-
-const settingsLabel = computed(() => {
-  const settings = t("_headerBar.settings");
-  return settings === "_headerBar.settings" ? "我的设置" : settings;
-});
-const logOutLabel = computed(() => {
-  const logOut = t("_headerBar.logOut");
-  return logOut === "_headerBar.logOut" ? "退出登录" : logOut;
-});
 
 const openSettingsDrawer = () => {
   mittBus.emit("openThemeDrawer");

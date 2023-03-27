@@ -2,19 +2,16 @@ import { DeviceType } from "@/stores/index.d";
 import { useLayoutStore } from "@/stores/layout";
 import { usePermissionStore } from "@/stores/permission";
 import { ElMessage } from "element-plus";
-import { useI18n } from "vue-i18n";
 import settings from "@/config/settings";
 import { useSettingsStore } from "@/stores/settings";
 import { useUserStore } from "@/stores/user";
-import { transformI18n } from "@/languages";
-import { isFunction, isString } from "@/utils/layout/validate";
+import { isFunction } from "@/utils/layout/validate";
 import { useRoutes } from "./useRoutes";
 export const useLayout = () => {
   const layoutStore = useLayoutStore();
   const settingsStore = useSettingsStore();
   const userStore = useUserStore();
   const { homeRoute, loadedRouteList } = usePermissionStore();
-  const { t } = useI18n();
   /**
    * @description 是否为移动端
    * @returns boolean：true 是，false 不是
@@ -59,57 +56,14 @@ export const useLayout = () => {
    * @param start 是否从头开始解析出 title，因为路由在编译阶段已经解析了一部分，所以涉及路由里的配置不需要从头开始解析，具体看 ./useRoutes.ts 的 processRouteMeta 函数
    * @returns 路由的 title
    */
-  const getTitle = (route: RouteConfig | RouterConfig, start = false) => {
-    if (start) return getLayoutTitle(route as RouteConfig);
+  const getTitle = (route: RouteConfig | RouterConfig) => {
     // 虽然 handleFunctionTitle 函数内部会对 title 是否是函数进行判断，但是因为 title 是函数的场景相比较小，所以这里先判断，减少往下执行的性能消耗
     if (route.meta.title && !isFunction(route.meta.title)) return route.meta.title + "";
-    const { title, titleIsFunction } = handleFunctionTitle(route as RouteConfig);
-    if (titleIsFunction) return handleI18nTitle(route.name as string | undefined, title, true, route.meta?.useI18n);
-    return title;
-  };
-  /**
-   * @description 完整获取页面标题、侧边菜单、面包屑、tabsNav 展示的 title
-   * @param route 当前路由
-   * @returns 路由的 title
-   */
-  const getLayoutTitle = (route: RouteConfig) => {
-    const name = route.name as string | undefined;
-    if (!route.meta?.title && !route.meta?.useI18n) return name || "no-name";
-    const { title, titleIsFunction } = handleFunctionTitle(route);
-    const t = title || name || "no-name";
-    return handleI18nTitle(name, t, titleIsFunction, route.meta?.useI18n);
-  };
-  /**
-   * @description 获取 i18n 转换后的文字
-   * @param name 路由的 name
-   * @param title 需要展示的 title
-   * @param titleIsFunction 路由 meta 里的 title 是否是函数
-   * @returns i18n 转换后的文字
-   */
-  const handleI18nTitle = (name: string | undefined, title: string, titleIsFunction = false, useI18n = false) => {
-    const { routeUseI18n: useI18nSetting } = settings;
-    if (!useI18nSetting || !useI18n) return title;
-    // 处理 {{ }}，如 title 为 "{{ _route.Home }}"，则说明 _route.Home 需要 i18n 转化
-    if (isString(title) && title.includes("{{") && title.includes("}}") && useI18nSetting) {
-      return title.replace(/({{[\s\S]+?}})/, (m: any, str: string) =>
-        str.replace(/{{([\s\S]*)}}/, (m: any, _: string) => t(_.trim()))
-      );
-    }
-    // 转换多语言后，如果还是 _route.${route.name}，代表没有配置多语言，则直接返回 name
-    if (!titleIsFunction && name) return t(`_route.${name}`) === `_route.${name}` ? name : t(`_route.${name}`);
-    return title;
-  };
-  /**
-   * @description 处理路由的 title，因为 title 支持函数格式，所以这里解析出函数的返回值
-   * @param route 当前路由
-   * @returns
-   */
-  function handleFunctionTitle(route: RouteConfig) {
     const meta = { ...route.meta }; // 取消 meta 响应式
     const title = meta?.title || "";
-    if (title && isFunction(title)) return { title: title({ ...route }), titleIsFunction: true };
-    return { title: title + "", titleIsFunction: false };
-  }
+    if (title && isFunction(title)) return title({ ...route } as RouteConfig);
+    return title + "";
+  };
   /**
    * @description 获取面包屑列表
    * @returns 面包屑列表
@@ -162,51 +116,6 @@ export const useLayout = () => {
     getBreadcrumbs,
     setBrowserTitle,
     getTitle,
-    getLayoutTitle,
     getMenuListByRouter,
-  };
-};
-/**
- * 非 setup 使用
- */
-export const useLayoutNoSetup = () => {
-  /**
-   * @description 获取页面标题、侧边菜单、面包屑、tabsNav 展示的 title，不处理为函数的 title
-   * @param route 当前路由
-   * @returns 路由的 title
-   */
-  const getLayoutTitle = (route: RouteConfig) => {
-    // 不处理为函数的 title
-    if (isFunction(route.meta.title)) return route.meta.title;
-    const name = route.name as string | undefined;
-    if (!route.meta?.title && !route.meta?.useI18n) return name || "no-name";
-    const title = route.meta?.title || name || "no-name";
-    return handleI18nTitle(name, title + "", route.meta?.useI18n);
-  };
-  /**
-   * @description 获取 i18n 转换后的文字
-   * @param name 路由的 name
-   * @param title 需要展示的 title
-   * @param titleIsFunction 路由 meta 里的 title 是否是函数
-   * @returns i18n 转换后的文字
-   */
-  const handleI18nTitle = (name: string | undefined, title: string, useI18n = false) => {
-    const { routeUseI18n: useI18nSetting } = settings;
-    if (!useI18nSetting || !useI18n) return title;
-    // 处理 {{ }}，如 title 为 "{{ _route.Home }}"，则说明 _route.Home 需要 i18n 转化
-    if (isString(title) && title.includes("{{") && title.includes("}}") && useI18nSetting) {
-      return title.replace(/({{[\s\S]+?}})/, (m: any, str: string) =>
-        str.replace(/{{([\s\S]*)}}/, (m: any, _: string) => transformI18n(_.trim()))
-      );
-    }
-    // 转换多语言后，如果还是 _route.${route.name}，代表没有配置多语言，则直接返回 name
-    if (name) {
-      return transformI18n(`_route.${name}`) === `_route.${name}` ? name : transformI18n(`_route.${name}`);
-    }
-    return title;
-  };
-  return {
-    getLayoutTitle,
-    handleI18nTitle,
   };
 };

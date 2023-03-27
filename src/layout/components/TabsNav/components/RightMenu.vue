@@ -2,27 +2,27 @@
   <ul v-show="visible" :style="{ left: `${left}px`, top: `${top}px` }" class="context-menu">
     <li v-if="condition.refresh" @click="refreshSelectedTab(selectedTab)">
       <el-icon><Refresh /></el-icon>
-      {{ $t("_tabsNav.refresh") }}
+      刷新当前标签页
     </li>
     <li v-if="condition.current" @click="closeCurrentTab(selectedTab)">
       <el-icon><Close /></el-icon>
-      {{ $t("_tabsNav.closeCurrent") }}
+      关闭当前标签页
     </li>
     <li v-if="condition.left" @click="closeLeftTab(selectedTab)">
       <el-icon><ArrowLeft /></el-icon>
-      {{ $t("_tabsNav.closeLeft") }}
+      关闭左侧标签页
     </li>
     <li v-if="condition.right" @click="closeRightTab(selectedTab)">
       <el-icon><ArrowRight /></el-icon>
-      {{ $t("_tabsNav.closeRight") }}
+      关闭右侧标签页
     </li>
     <li v-if="condition.other" @click="closeOthersTabs(selectedTab)">
       <el-icon><SemiSelect /></el-icon>
-      {{ $t("_tabsNav.closeOthers") }}
+      关闭其他标签页
     </li>
     <li v-if="condition.all" @click="closeAllTabs()">
       <el-icon><FolderDelete /></el-icon>
-      {{ $t("_tabsNav.closeAll") }}
+      关闭全部标签页
     </li>
   </ul>
 </template>

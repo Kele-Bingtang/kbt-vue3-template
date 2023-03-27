@@ -4,7 +4,6 @@
       <MenuSearch id="menuSearch" />
       <Fullscreen id="fullscreen" />
       <LayoutSizeSelect id="layoutSizeSelect" />
-      <LanguageSelect id="languageSelect" />
       <ErrorLog id="errorLog" :errorCount="errorCount" v-if="settings.errorLog.showInHeader && errorCount > 0" />
       <User id="user" />
     </div>
@@ -13,7 +12,6 @@
 
 <script setup lang="ts" name="ToolBarRight">
 import Fullscreen from "./components/Fullscreen.vue";
-import LanguageSelect from "./components/LanguageSelect.vue";
 import LayoutSizeSelect from "./components/LayoutSizeSelect.vue";
 import MenuSearch from "./components/MenuSearch.vue";
 import User from "./components/User.vue";

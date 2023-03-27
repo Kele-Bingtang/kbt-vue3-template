@@ -3,7 +3,7 @@
     <!-- 布局切换 -->
     <el-divider class="divider" content-position="center">
       <el-icon><Notification /></el-icon>
-      {{ $t("_settings.layoutSwitch") }}
+      布局切换
     </el-divider>
     <div class="layout-box">
       <el-tooltip effect="dark" content="纵向" placement="top" :show-after="200">
@@ -102,7 +102,7 @@
     >
       <el-divider class="divider" content-position="center">
         <el-icon><Menu /></el-icon>
-        {{ $t("_settings.menuSwitch") }}
+        菜单切换
       </el-divider>
       <div class="menu-box">
         <el-tooltip effect="dark" content="亮色" placement="top" :show-after="200">
@@ -132,7 +132,7 @@
     >
       <el-divider class="divider" content-position="center">
         <el-icon><Menu /></el-icon>
-        {{ $t("_settings.headerSwitch") }}
+        头部切换
       </el-divider>
       <div class="menu-box">
         <el-tooltip effect="dark" content="亮色" placement="top" :show-after="200">
@@ -155,7 +155,7 @@
     </template>
     <el-divider class="divider" content-position="center">
       <el-icon><Menu /></el-icon>
-      {{ $t("_settings.tabsNavSwitch") }}
+      标签切换
     </el-divider>
     <div class="tab-box">
       <div class="tab-item">
@@ -196,14 +196,14 @@
     <!-- 全局主题 -->
     <el-divider class="divider" content-position="center">
       <el-icon><ColdDrink /></el-icon>
-      {{ $t("_settings.globalTheme") }}
+      全局主题
     </el-divider>
     <div class="drawer-item">
-      <span>{{ $t("_settings.theme") }}</span>
+      <span>主题色</span>
       <el-color-picker v-model="settingsStore.primaryTheme" :predefine="colorList" @change="changePrimary" />
     </div>
     <div class="drawer-item">
-      <span>{{ $t("_settings.darkMode") }}</span>
+      <span>暗黑模式</span>
       <el-switch
         v-model="settingsStore.isDark"
         @change="handleSwitchDark"
@@ -213,60 +213,56 @@
       />
     </div>
     <div class="drawer-item">
-      <span>{{ $t("_settings.greyMode") }}</span>
+      <span>灰色模式</span>
       <el-switch v-model="settingsStore.isGrey" @change="changeGreyOrWeak($event as boolean, 'grey')" />
     </div>
     <div class="drawer-item">
-      <span>{{ $t("_settings.weakMode") }}</span>
+      <span>色弱模式</span>
       <el-switch v-model="settingsStore.isWeak" @change="changeGreyOrWeak($event as boolean, 'weak')" />
     </div>
     <!-- 界面设置 -->
     <el-divider class="divider" content-position="center">
       <el-icon><Setting /></el-icon>
-      {{ $t("_settings.interfaceSettings") }}
+      界面配置
     </el-divider>
     <div class="drawer-item">
-      <span>{{ $t("_settings.collapseMenu") }}</span>
+      <span>折叠菜单</span>
       <el-switch v-model="settingsStore.isCollapse" />
     </div>
     <div class="drawer-item">
-      <span>{{ $t("_settings.showBreadcrumb") }}</span>
+      <span>显示面包屑</span>
       <el-switch v-model="settingsStore.showBreadcrumb" />
     </div>
     <div class="drawer-item">
-      <span>{{ $t("_settings.showBreadcrumbIcon") }}</span>
+      <span>显示面包屑图标</span>
       <el-switch v-model="settingsStore.showBreadcrumbIcon" />
     </div>
     <div class="drawer-item">
-      <span>{{ $t("_settings.showTagsNav") }}</span>
+      <span>显示标签栏</span>
       <el-switch v-model="settingsStore.showTabsNav" />
     </div>
     <div class="drawer-item">
-      <span>{{ $t("_settings.showTabsNavIcon") }}</span>
+      <span>显示标签栏图标</span>
       <el-switch v-model="settingsStore.showTabsNavIcon" />
     </div>
     <div class="drawer-item">
-      <span>{{ $t("_settings.recordTagsNav") }}</span>
+      <span>持久化标签页</span>
       <el-switch v-model="settingsStore.recordTabsNav" />
     </div>
     <div class="drawer-item">
-      <span>{{ $t("_settings.showLayoutLogo") }}</span>
+      <span>显示侧边菜单 Logo</span>
       <el-switch v-model="settingsStore.showLayoutLogo" />
     </div>
     <div class="drawer-item">
-      <span>{{ $t("_tabsNav.maximize") }}</span>
+      <span>内容区域最大化</span>
       <el-switch v-model="settingsStore.maximize" />
     </div>
     <el-divider class="divider" content-position="center">
       <el-icon><Box /></el-icon>
-      {{ $t("_settings.titleSwitch") }}
+      标题切换
     </el-divider>
     <div class="drawer-item">
-      <el-select
-        v-model="settingsStore.titleMode"
-        :placeholder="$t('_settings.titlePlaceholder')"
-        @change="handleTitleModeSelect"
-      >
+      <el-select v-model="settingsStore.titleMode" placeholder="页面 Title" @change="handleTitleModeSelect">
         <el-option
           v-for="item in titleModeOptions"
           :key="item.value"
@@ -277,9 +273,7 @@
       </el-select>
     </div>
     <el-divider />
-    <el-button plain icon="Refresh" @click="resetSettings">
-      {{ $t("_settings.resetSettingsTitle") }}
-    </el-button>
+    <el-button plain icon="Refresh" @click="resetSettings">重置配置</el-button>
   </el-drawer>
 </template>
 <script setup lang="ts" name="ThemeDrawer">
@@ -289,7 +283,6 @@ import { useSettingsStore } from "@/stores/settings";
 import { LayoutModeType, LayoutThemeType, TabsNavModeType } from "@/stores/index.d";
 import mittBus from "@/utils/layout/mittBus";
 import { Sunny, Moon } from "@element-plus/icons-vue";
-import { useI18n } from "vue-i18n";
 import { useLayout } from "@/hooks/useLayout";
 import { ElMessage } from "element-plus";
 import variables from "@/styles/variables.module.scss";
@@ -307,23 +300,22 @@ const colorList = [
   "#f39c12",
   "#9b59b6",
 ];
-const { t } = useI18n();
 const titleModeOptions = [
   {
     value: "0",
-    label: t("_settings.titleModeOne"),
+    label: "项目 Title + 页面 Title",
   },
   {
     value: "1",
-    label: t("_settings.titleModeTwo"),
+    label: "用户名 + 页面 Title",
   },
   {
     value: "2",
-    label: t("_settings.titleModeThree"),
+    label: "项目 Title",
   },
   {
     value: "3",
-    label: t("_settings.titleModeFour"),
+    label: "页面 Title",
   },
 ];
 const route = useRoute();
@@ -371,10 +363,8 @@ const handleTitleModeSelect = () => {
 };
 // 重置缓存
 const resetSettings = () => {
-  let message = t("_settings.resetSettings");
-  message = message === "_settings.resetSettings" ? "正在清除设置缓存并刷新，请稍候..." : message;
   ElMessage({
-    message: message,
+    message: "正在清除设置缓存并刷新，请稍候...",
     duration: 1000,
     icon: "Loading",
   });

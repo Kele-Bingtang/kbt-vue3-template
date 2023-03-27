@@ -1,7 +1,7 @@
 /**
  * @description 动态路由参数配置简介 📚
  * @param path ==> 路由的地址，这是必须设置的，如果是个有效的 http 或者 https 链接，则点击该菜单跳转到新窗口
- * @param name ==> 路由的名字，这是必须设置的，如果开启了 I18n，某些路由又不想使用 I18n，则 name 以 _noUseI18n- 开头
+ * @param name ==> 路由的名字，这是必须设置的
  * @param redirect ==> 重定向到某个路由下，可选，function 使用方式请看官网：https://router.vuejs.org/zh/api/index.html#redirect
  * @param component ==> 视图文件路径
  * @param meta ==> 菜单信息
@@ -27,7 +27,6 @@
  * @param meta.transition.leaveTransition ==> 离场动画
  * @param meta.hideInTab ==> 是否不添加到标签页，默认 false
  * @param meta.dynamicLevel ==> 动态路由可打开的最大数量，默认为空
- * @param meta.useI18n ==>  是否开启 i18n。默认读取全局的 routeUseI18n（src/config/settings.ts）
  * @param meta.useTooltip ==> 菜单的文字超出后，是否使用 el-toolTip 提示，仅针二级路由及以上生效。默认读取全局的 routeUseTooltip（src/config/settings.ts）
  */
 

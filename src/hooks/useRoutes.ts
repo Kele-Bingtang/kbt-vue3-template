@@ -6,7 +6,6 @@ import { ElNotification } from "element-plus";
 import type { RouteRecordRaw } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import settings from "@/config/settings";
-import { useLayoutNoSetup } from "./useLayout";
 import type { BackstageMenuList } from "@/api/menu";
 
 const modules = import.meta.glob("@/views/**/*.vue");
@@ -15,7 +14,6 @@ const IFrame = () => import("@/layout/frameView.vue");
 export const useRoutes = () => {
   const permissionStore = usePermissionStore();
   const userStore = useUserStore();
-  const { getLayoutTitle } = useLayoutNoSetup();
 
   /**
    * @description 从后台拿到菜单，并转换成路由进行动态加载
@@ -147,12 +145,9 @@ export const useRoutes = () => {
       const fullPath = router.path.startsWith("/") ? router.path : (basePath + "/" + router.path).replace(/\/+/g, "/");
       // 处理成后面布局要用到的 title。title 如果为函数，则涉及到当前路由，所以这里无法处理
       if (router.meta) {
-        const { useI18n, isKeepAlive, isFull, useTooltip } = router.meta;
-        const { routeUseI18n, isKeepAlive: keepAlive, isFull: full, routeUseTooltip } = settings;
+        const { isKeepAlive, isFull, useTooltip } = router.meta;
+        const { isKeepAlive: keepAlive, isFull: full, routeUseTooltip } = settings;
         router.meta._fullPath = fullPath;
-        // 这两个顺序不能互换，因为 getLayoutTitle 函数需要 useI18n
-        if (useI18n === undefined && routeUseI18n !== undefined) router.meta.useI18n = routeUseI18n;
-        router.meta.title = getLayoutTitle(router as RouteConfig);
         if (isKeepAlive === undefined && keepAlive !== undefined) router.meta.isKeepAlive = keepAlive;
         if (isFull === undefined && full !== undefined) router.meta.isFull = full;
         if (useTooltip === undefined && routeUseTooltip !== undefined) router.meta.useTooltip = routeUseTooltip;

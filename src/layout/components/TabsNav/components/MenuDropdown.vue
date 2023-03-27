@@ -2,7 +2,7 @@
   <el-dropdown trigger="click" :teleported="false">
     <slot>
       <el-button text size="small" type="primary" @click="expandDropdown">
-        <span>{{ $t("_tabsNav.more") }}</span>
+        <span>更多</span>
         <el-icon class="el-icon--right"><arrow-down /></el-icon>
       </el-button>
     </slot>
@@ -10,31 +10,31 @@
       <el-dropdown-menu>
         <el-dropdown-item @click="refreshSelectedTab(selectedTab)" :disabled="!contextMenuCondition.refresh">
           <el-icon><Refresh /></el-icon>
-          {{ $t("_tabsNav.refresh") }}
+          刷新当前标签页
         </el-dropdown-item>
         <el-dropdown-item @click="useMaximize">
           <el-icon><FullScreen /></el-icon>
-          {{ $t("_tabsNav.maximize") }}
+          内容区域最大化
         </el-dropdown-item>
         <el-dropdown-item divided @click="closeCurrentTab(selectedTab)" :disabled="!contextMenuCondition.current">
           <el-icon><Close /></el-icon>
-          {{ $t("_tabsNav.closeCurrent") }}
+          关闭当前标签页
         </el-dropdown-item>
         <el-dropdown-item @click="closeLeftTab(selectedTab)" :disabled="!contextMenuCondition.left">
           <el-icon><ArrowLeft /></el-icon>
-          {{ $t("_tabsNav.closeLeft") }}
+          关闭左侧标签页
         </el-dropdown-item>
         <el-dropdown-item @click="closeRightTab(selectedTab)" :disabled="!contextMenuCondition.right">
           <el-icon><ArrowRight /></el-icon>
-          {{ $t("_tabsNav.closeRight") }}
+          关闭右侧标签页
         </el-dropdown-item>
         <el-dropdown-item @click="closeOthersTabs(selectedTab)" :disabled="!contextMenuCondition.other">
           <el-icon><SemiSelect /></el-icon>
-          {{ $t("_tabsNav.closeOthers") }}
+          关闭其他标签页
         </el-dropdown-item>
         <el-dropdown-item @click="closeAllTabs()" :disabled="!contextMenuCondition.all">
           <el-icon><FolderDelete /></el-icon>
-          {{ $t("_tabsNav.closeAll") }}
+          关闭全部标签页
         </el-dropdown-item>
       </el-dropdown-menu>
     </template>
