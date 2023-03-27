@@ -1,0 +1,100 @@
+{
+  "name": "kbt-vue3-admin",
+  "version": "0.0.2",
+  "private": true,
+  "scripts": {
+    "dev": "vite --mode development",
+    "serve": "vite --mode development",
+    "build": "rimraf dist && vite build --mode production",
+    "build:prod": "rimraf dist && vite build --mode production",
+    "build:test": "rimraf dist && vite build --mode test",
+    "preview": "vite preview",
+    "report": "rimraf dist && vite build",
+    "cloc": "NODE_OPTIONS=--max-old-space-size=4096 cloc . --exclude-dir=node_modules",
+    "clean:cache": "rm -rf node_modules && rm -rf .eslintcache && yarn install",
+    "prepare": "husky install",
+    "lint:lint-staged": "lint-staged -c ./.husky/lintstagedrc.js",
+    "lint:stylelint": "stylelint \"**/*.{vue,css,scss,postcss,less}\" --fix",
+    "lint:prettier": "prettier --write  \"src/**/*.{js,ts,json,tsx,css,less,scss,vue,html,md}\"",
+    "lint:eslint": "eslint --max-warnings 0  \"{src,mock,build}/**/*.{vue,js,ts,tsx}\" --fix",
+    "lint": "yarn lint:eslint && yarn lint:prettier && yarn lint:stylelint",
+    "release": "standard-version",
+    "commit": "git add . && git-cz && git push",
+    "commit:all": "git pull && git add . && git-cz && git push"
+  },
+  "browserslist": [
+    "> 1%",
+    "not ie 11",
+    "not op_mini all"
+  ],
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.0.10",
+    "@vueuse/core": "^9.13.0",
+    "axios": "^1.3.2",
+    "element-plus": "^2.2.30",
+    "mitt": "^3.0.0",
+    "nprogress": "^0.2.0",
+    "path-to-regexp": "^6.2.1",
+    "pinia": "^2.0.28",
+    "pinia-plugin-persistedstate": "^3.0.2",
+    "qs": "^6.11.0",
+    "sortablejs": "^1.15.0",
+    "vue": "^3.2.45",
+    "vue-i18n": "^9.2.2",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.5.0",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@rushstack/eslint-patch": "^1.1.4",
+    "@types/node": "^18.11.12",
+    "@types/sortablejs": "^1.15.1",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.0",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/eslint-config-typescript": "^11.0.0",
+    "@vue/tsconfig": "^0.1.3",
+    "autoprefixer": "^10.4.13",
+    "cloc": "^2.11.0",
+    "commitizen": "^4.3.0",
+    "cssnano": "^5.1.15",
+    "cz-git": "^1.6.1",
+    "eslint": "^8.22.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.21",
+    "postcss-html": "^1.5.0",
+    "postcss-import": "^15.1.0",
+    "postcss-scss": "^4.0.6",
+    "prettier": "^2.7.1",
+    "rollup-plugin-visualizer": "^5.9.0",
+    "sass": "^1.58.1",
+    "standard-version": "^9.5.0",
+    "stylelint": "^15.3.0",
+    "stylelint-config-html": "^1.1.0",
+    "stylelint-config-recess-order": "^4.0.0",
+    "stylelint-config-standard-vue": "^1.0.0",
+    "typescript": "~4.7.4",
+    "unplugin-auto-import": "^0.14.2",
+    "vite": "^4.0.0",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vite-plugin-vue-setup-extend": "^0.4.0",
+    "vue-tsc": "^1.0.12"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
+  },
+  "standard-version": {
+    "skip": {
+      "bump": true,
+      "commit": true,
+      "tag": true
+    }
+  }
+}

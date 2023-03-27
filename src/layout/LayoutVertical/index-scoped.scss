@@ -1,0 +1,71 @@
+@import "@/styles/variables.module.scss";
+
+.layout-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .drawer-bg {
+    position: absolute;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    opacity: 0.3;
+  }
+
+  .el-aside {
+    z-index: 1000;
+    height: 100%;
+    overflow: inherit;
+    background: var(--menu-bg-color);
+    box-shadow: 0 1px 4px rgb(0 21 41 / 9%);
+    transition: width 0.28s;
+
+    :deep(.el-scrollbar) {
+      height: calc(100% - 55px);
+
+      .el-menu {
+        overflow-x: hidden;
+        border-right: none;
+      }
+    }
+
+    .logo {
+      box-sizing: border-box;
+      height: 55px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--menu-logo-line-color);
+
+      span {
+        font-size: 21.5px;
+        font-weight: bold;
+        color: var(--menu-logo-title-color);
+        white-space: nowrap;
+      }
+
+      img {
+        width: 28px;
+        object-fit: contain;
+        margin-right: 6px;
+      }
+    }
+  }
+
+  &.menu-expand .el-aside {
+    width: $sideMenuWidth !important;
+  }
+
+  &.menu-collapse .el-aside {
+    width: 64px !important;
+    transition-duration: 0.3s;
+  }
+
+  .el-header {
+    box-sizing: border-box;
+    height: 55px;
+    padding: 0 15px;
+    border-bottom: 1px solid #3c3c3c1f;
+  }
+}
