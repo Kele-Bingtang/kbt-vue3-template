@@ -2,7 +2,9 @@
 
 基于 Vue3.2、TypeScript、Vite4、Pinia、Element-Plus 搭建的 Admin Template 模板。
 
-这是纯净版，只有项目框架必要的信息。
+这是纯净版，只有项目框架必要的信息。完整版请看 [kbt-vue3-admin](https://github.com/Kele-Bingtang/kbt-vue3-admin)。
+
+master 支持国际化，如果你不需要国际化，则看本仓库的另一个分支：[no-i18n](https://github.com/Kele-Bingtang/kbt-vue3-template/tree/no-i18n)。
 
 克隆项目下来后，记得切换 GitLab 地址，修改为您真正的项目地址。
 
@@ -80,6 +82,7 @@ sh push.sh "您的 commit 信息"
 
 ```text
 Vue3-Admin-Ts
+├─ .husky                 # git commit 钩子
 ├─ .vscode                # VSCode 推荐配置
 ├─ public                 # 静态资源文件（该文件夹不会被打包）
 ├─ src
@@ -117,7 +120,6 @@ Vue3-Admin-Ts
 ├─ commitlint.config.js   # git 提交规范配置
 ├─ index.html             # 入口 html
 ├─ LICENSE                # 开源协议文件
-├─ lint-staged.config     # lint-staged 配置文件
 ├─ package-lock.json      # 依赖包包版本锁
 ├─ package.json           # 依赖包管理
 ├─ postcss.config.js      # postcss 配置

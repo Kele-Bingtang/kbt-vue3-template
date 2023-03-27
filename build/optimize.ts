@@ -7,24 +7,13 @@
 const include = [
   "qs",
   "mitt",
-  "xlsx",
   "axios",
   "pinia",
-  "echarts",
   "vue-i18n",
   "sortablejs",
   "@vueuse/core",
-  "@wangeditor/editor",
-  "@wangeditor/editor-for-vue",
-  "@wangeditor/plugin-upload-attachment",
-  "countup",
-  "file-saver",
   "path-to-regexp",
   "pinia-plugin-persistedstate",
-  "vue-clipboard3",
-  "vue-cropper",
-  "vue3-tree-org",
-  "vuedraggable",
 ];
 
 /**
