@@ -2,7 +2,9 @@
 
 基于 Vue3.2、TypeScript、Vite4、Pinia、Element-Plus 搭建的 Admin Template 模板。
 
-这是纯净版，只有项目框架必要的信息。
+这是纯净版，只有项目框架必要的信息。完整版请看 [kbt-vue3-admin](https://github.com/Kele-Bingtang/kbt-vue3-admin)。
+
+no-i18n 不支持国际化，如果你需要国际化，则看本仓库的另一个分支：[no-i18n](https://github.com/Kele-Bingtang/kbt-vue3-template)。
 
 克隆项目下来后，记得切换 GitLab 地址，修改为您真正的项目地址。
 
