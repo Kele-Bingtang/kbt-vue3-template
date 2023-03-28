@@ -69,17 +69,11 @@ export const constantRoutes: RouterConfigRaw[] = [
         component: () => import("@/views/errorLog/index.vue"),
         meta: { title: "错误日志", isKeepAlive: false, hideInMenu: true },
       },
-      {
-        path: "/profile",
-        name: "Profile",
-        component: () => import("@/views/profile/index.vue"),
-        meta: { title: "我的主页", icon: "User" },
-      },
     ],
   },
 ];
 
-export const errorRouter = [
+export const errorRouter: RouterConfigRaw[] = [
   {
     path: "/403",
     name: "403",
