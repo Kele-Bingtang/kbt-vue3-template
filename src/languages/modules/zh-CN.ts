@@ -4,7 +4,6 @@ export default {
     Login: "登录",
     Layout: "布局",
     ErrorLog: "错误日志",
-    Profile: "我的主页",
     Error: "错误页面",
     403: "403 页面",
     404: "404 页面",

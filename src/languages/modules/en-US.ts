@@ -4,7 +4,6 @@ export default {
     Login: "Login",
     Layout: "Layout",
     ErrorLog: "Error Logger",
-    Profile: "My Profile",
     Error: "Error",
     403: "403",
     404: "404",
