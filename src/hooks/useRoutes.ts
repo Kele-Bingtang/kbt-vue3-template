@@ -183,6 +183,7 @@ export const useRoutes = () => {
    */
   const ascending = (routeList: any[]) => {
     routeList.forEach((r, index) => {
+			if (!r.meta) r.meta = {};
       // 当 rank 不存在时，根据顺序自动创建，首页路由永远在第一位
       if (r.name === HOME_NAME && !r.meta?.rank) r.meta.rank = 0;
       else if (handRank(r)) r.meta.rank = index + 2;
