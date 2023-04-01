@@ -194,8 +194,8 @@ export const useRoutes = () => {
   /**
    * @description 过滤不需要的排序的路由
    */
-  const handRank = (routeList: RouterConfigRaw) => {
-    const { name, path, meta } = routeList;
+  const handRank = (route: RouterConfig) => {
+    const { name, path, meta } = route;
     if (!meta?.rank || (meta?.rank === 0 && name !== HOME_NAME && path !== "/")) return true;
     return false;
   };

@@ -7,7 +7,6 @@
       :closable="false"
       style="margin-bottom: 10px"
     ></el-alert>
-    <el-button type="primary" @click="addErrorLog" style="margin-bottom: 10px">添加一条错误日志</el-button>
     <el-popconfirm placement="right" title="您确定删除全部日志吗？" @confirm="clearAll">
       <template #reference>
         <el-button type="danger" :disabled="errorLogs.length === 0" style="margin-bottom: 10px">删除全部</el-button>
@@ -120,39 +119,6 @@ const handleClick = (row: ErrorLog) => {
 
 const handleDelete = (row: ErrorLog) => {
   errorStore.deleteOneErrorLog(row);
-};
-const addErrorLog = () => {
-  const letters = [
-    "a",
-    "b",
-    "c",
-    "d",
-    "e",
-    "f",
-    "g",
-    "h",
-    "i",
-    "j",
-    "k",
-    "l",
-    "m",
-    "n",
-    "o",
-    "p",
-    "q",
-    "r",
-    "s",
-    "t",
-    "u",
-    "v",
-    "w",
-    "x",
-    "y",
-    "z",
-  ];
-  const letter = letters[Math.floor(Math.random() * letters.length)];
-  const errorMessage = letter + " is not undefined";
-  throw new Error(errorMessage);
 };
 </script>
 
