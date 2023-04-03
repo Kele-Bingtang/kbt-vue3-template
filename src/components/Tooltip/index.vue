@@ -40,8 +40,8 @@ const isFirstMounted = ref(false);
 let tryNumber = -1;
 const line = computed(() => props.line);
 const className = computed(() => {
-  if (props.line === 1) return "sle";
-  else return "line-clamp";
+  if (props.line === 1) return "line sle";
+  else return "line line-clamp";
 });
 const childrenIsArray = (arr: any, content: Array<string>) => {
   arr.forEach((v: any) => {
@@ -80,7 +80,7 @@ const compareWidth = () => {
     const tempTag = document.createElement("span");
     tempTag.innerText = content.value.join("") ?? "";
     tempTag.className = "tooltip-slot";
-    const bodyDom = document.querySelector("body");
+    const bodyDom = document.querySelector(".line");
     bodyDom && bodyDom.appendChild(tempTag);
     const tooTipSlot = document.querySelector(".tooltip-slot");
     const childW = (tooTipSlot as HTMLSpanElement).offsetWidth;
