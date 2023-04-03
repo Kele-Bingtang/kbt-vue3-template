@@ -22,9 +22,9 @@
 <script setup lang="ts" name="Tooltip">
 import { isArray } from "@/utils/layout/validate";
 interface TooltipProps {
-  line?: number;
-  realTime?: boolean;
-  try?: number;
+  line?: number; // 多少行文字溢出开始省略并气泡提示
+  realTime?: boolean; // 是否实时的判断文字是否溢出（鼠标悬停触发一次）
+  try?: number; // 组件初始化后，尝试多少次判断文字是否溢出（鼠标悬停触发一次），相比较 realTime，这是有次数的限制
 }
 const props = withDefaults(defineProps<TooltipProps>(), {
   line: 1,
@@ -40,8 +40,8 @@ const isFirstMounted = ref(false);
 let tryNumber = -1;
 const line = computed(() => props.line);
 const className = computed(() => {
-  if (props.line === 1) return "sle";
-  else return "line-clamp";
+  if (props.line === 1) return "line sle";
+  else return "line line-clamp";
 });
 const childrenIsArray = (arr: any, content: Array<string>) => {
   arr.forEach((v: any) => {
@@ -80,7 +80,7 @@ const compareWidth = () => {
     const tempTag = document.createElement("span");
     tempTag.innerText = content.value.join("") ?? "";
     tempTag.className = "tooltip-slot";
-    const bodyDom = document.querySelector("body");
+    const bodyDom = document.querySelector(".line");
     bodyDom && bodyDom.appendChild(tempTag);
     const tooTipSlot = document.querySelector(".tooltip-slot");
     const childW = (tooTipSlot as HTMLSpanElement).offsetWidth;
