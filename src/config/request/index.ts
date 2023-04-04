@@ -58,7 +58,7 @@ class RequestHttp {
         config.headers && config.method?.toLocaleLowerCase() === "post" && processParamsType(config);
         config.params?._type === "multi" && processArray(config);
         config.params && delete config.params._type;
-        config.headers && (config.headers.token = userStore.token);
+        config.headers.token = userStore.token;
         return config;
       },
       (error: AxiosError) => {
