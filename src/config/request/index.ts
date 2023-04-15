@@ -211,8 +211,8 @@ function processArray(config: InternalAxiosRequestConfig) {
  * @returns 持久化数据
  */
 function processError(error: AxiosError) {
-  const e = JSON.stringify(error);
-  if (e !== "{}") {
+  const e = JSON.parse(JSON.stringify(error));
+  if (Object.keys(e).includes("baseURL")) {
     const {
       config: { baseURL, url, params, method, data },
     } = JSON.parse(e);
