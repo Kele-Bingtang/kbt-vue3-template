@@ -193,7 +193,7 @@ function processArray(config: InternalAxiosRequestConfig) {
   else url += "?";
   const keys = Object.keys(config.params);
   for (const key of keys) {
-    if (config.params[key]) {
+    if (!!config.params[key] || config.params[key] === 0 || config.params[key] === undefined) {
       if (isArray(config.params[key])) {
         config.params[key].forEach((item: any) => {
           url += `${key}=${item}&`;
