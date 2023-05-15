@@ -1,7 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "compilerOptions": {
-    "ignoreDeprecations": "5.0",
     "baseUrl": ".",
     "paths": {
       "@": ["src"],
