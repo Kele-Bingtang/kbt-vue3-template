@@ -45,6 +45,25 @@ export function removeDuplicateObj<T>(arr: Array<T>, removeKeys: string[], keyIs
 }
 
 /**
+ * @description 获取浏览器默认语言
+ * @return string
+ */
+export function getBrowserLang() {
+  const browserLang = navigator.language ? navigator.language : navigator.browserLanguage;
+  let defaultBrowserLang = "";
+  if (
+    browserLang.toLowerCase() === "cn" ||
+    browserLang.toLowerCase() === "zh" ||
+    browserLang.toLowerCase() === "zh-cn"
+  ) {
+    defaultBrowserLang = "zh-CN";
+  } else {
+    defaultBrowserLang = "en-US";
+  }
+  return defaultBrowserLang;
+}
+
+/**
  * @description 获取当前时间对应的提示语
  * @return string
  */
