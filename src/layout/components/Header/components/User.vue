@@ -14,10 +14,10 @@
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item @click="openSettingsDrawer" icon="Setting" v-if="showSettings">
+        <el-dropdown-item @click="openSettingsDrawer" :icon="Setting" v-if="showSettings">
           <span>我的设置</span>
         </el-dropdown-item>
-        <el-dropdown-item divided @click="logout" icon="Back">
+        <el-dropdown-item divided @click="logout" :icon="Back">
           <span>退出登录</span>
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -29,7 +29,7 @@
 import { useSettingsStore } from "@/stores/settings";
 import { useUserStore } from "@/stores/user";
 import defaultAvatar from "@/assets/images/default.png";
-import { ArrowDownBold } from "@element-plus/icons-vue";
+import { ArrowDownBold, Setting, Back } from "@element-plus/icons-vue";
 import mittBus from "@/utils/layout/mittBus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { LOGIN_URL } from "@/router/routesConfig";

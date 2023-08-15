@@ -45,6 +45,16 @@
 import { useSettingsStore } from "@/stores/settings";
 import { useDebounceFn } from "@vueuse/core";
 import { useTabsNav } from "../useTabsNav";
+import {
+  ArrowDown,
+  Refresh,
+  FullScreen,
+  Close,
+  ArrowLeft,
+  ArrowRight,
+  SemiSelect,
+  FolderDelete,
+} from "@element-plus/icons-vue";
 
 const {
   contextMenuCondition,

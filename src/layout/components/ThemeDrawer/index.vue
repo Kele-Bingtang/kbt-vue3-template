@@ -108,7 +108,7 @@
         <el-tooltip effect="dark" content="亮色" placement="top" :show-after="200">
           <div :class="{ 'is-dark': settingsStore.isDark }">
             <div class="menu-box-item" @click="handleMenuTheme(LayoutThemeType.Light)">
-              <img src="@/assets/icons/menu-light.svg" alt="亮色主题" style="width: 95px; height: 67px" />
+              <img src="@/assets/svg/menu-light.svg" alt="亮色主题" style="width: 95px; height: 67px" />
               <el-icon v-if="settingsStore.menuTheme === LayoutThemeType.Light"><CircleCheckFilled /></el-icon>
             </div>
           </div>
@@ -116,7 +116,7 @@
         <el-tooltip effect="dark" content="暗色" placement="top" :show-after="200">
           <div :class="{ 'is-dark': settingsStore.isDark }">
             <div class="menu-box-item" @click="handleMenuTheme(LayoutThemeType.Dark)">
-              <img src="@/assets/icons/menu-dark.svg" alt="暗色主题" style="width: 95px; height: 67px" />
+              <img src="@/assets/svg/menu-dark.svg" alt="暗色主题" style="width: 95px; height: 67px" />
               <el-icon v-if="settingsStore.menuTheme === LayoutThemeType.Dark"><CircleCheckFilled /></el-icon>
             </div>
           </div>
@@ -273,7 +273,7 @@
       </el-select>
     </div>
     <el-divider />
-    <el-button plain icon="Refresh" @click="resetSettings">重置配置</el-button>
+    <el-button plain :icon="Refresh" @click="resetSettings">重置配置</el-button>
   </el-drawer>
 </template>
 <script setup lang="ts" name="ThemeDrawer">
@@ -286,6 +286,18 @@ import { Sunny, Moon } from "@element-plus/icons-vue";
 import { useLayout } from "@/hooks/useLayout";
 import { ElMessage } from "element-plus";
 import variables from "@/styles/variables.module.scss";
+import {
+  Notification,
+  CircleCheckFilled,
+  Menu,
+  Close,
+  HomeFilled,
+  ColdDrink,
+  Setting,
+  Box,
+  Refresh,
+} from "@element-plus/icons-vue";
+
 const { changePrimary, changeGreyOrWeak, switchDark } = useTheme();
 // 预定义主题颜色
 const colorList = [

@@ -60,7 +60,8 @@
     "antd",
     "framename",
     "auths",
-		"commitlint",
-		"stylelint"
+    "commitlint",
+    "stylelint",
+    "Iconify"
   ]
 }

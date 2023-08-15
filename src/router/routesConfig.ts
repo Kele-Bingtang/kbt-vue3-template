@@ -32,6 +32,8 @@
  * @param meta.useTooltip ==> 菜单的文字超出后，是否使用 el-toolTip 提示，仅针二级路由及以上生效。默认读取全局的 routeUseTooltip（src/config/settings.ts）
  */
 
+import { HomeFilled } from "@element-plus/icons-vue";
+
 export const HOME_URL = "/home";
 export const HOME_NAME = "Home";
 export const LOGIN_URL = "/login";
@@ -81,7 +83,6 @@ export const errorRouter: RouterConfigRaw[] = [
     component: () => import("@/views/error/403.vue"),
     meta: {
       title: "403 页面",
-      icon: "StarFilled",
     },
   },
   {
@@ -90,7 +91,6 @@ export const errorRouter: RouterConfigRaw[] = [
     component: () => import("@/views/error/404.vue"),
     meta: {
       title: "404 页面",
-      icon: "StarFilled",
     },
   },
   {
@@ -99,7 +99,6 @@ export const errorRouter: RouterConfigRaw[] = [
     component: () => import("@/views/error/500.vue"),
     meta: {
       title: "500 页面",
-      icon: "StarFilled",
     },
   },
 ];
@@ -120,7 +119,7 @@ export const rolesRoutes: RouterConfigRaw[] = [
     meta: {
       isAffix: true,
       title: "首页",
-      icon: "HomeFilled",
+      icon: HomeFilled,
     },
   },
 ];
