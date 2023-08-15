@@ -26,6 +26,10 @@ Admin 项目用到的 key 暂时只有缓存功能，如个性化配置、布局
 
 注意：tokenKey 不需要修改，因为 token 是所有 Admin 的访问凭证。如果您修改了 tokenKey，则无法利用该 token 访问其他项目。
 
+## 使用文档
+
+[使用文档](https://vue3-docs.youngkbt.cn/)
+
 ## 效果预览
 
 [kbt-vue3-admin](https://vue3-admin.youngkbt.cn/)
