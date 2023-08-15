@@ -356,13 +356,13 @@ Admin 继承了 Vue3 的核心思想：hooks 函数，位于 `sc/hooks` 下。
 
 Admin 模板布局用到的可定制化样式位于 `src/styles` 下，如侧边栏主题、全局样式，您可以查看源码，根据自己的美观修改对应的样式。
 
-### 图标
+### SVG 图标
 
 Admin 模板使用的图标是 Element UI 内置的和 SVG 格式，因为 Element UI 内置的图标较少，所以自行在网上找 SVG 图标，如 [阿里云矢量图标库](https://www.iconfont.cn/)。
 
-图标放置于 `src/assets/icons` 下。
+图标放置于 `src/assets/svg` 下。
 
-使用步骤：在 vue 组件里使用 svg-icon 标签，如 `<svg-icon name="bug" width="20px" height="20px" />`，其中 name 是 svg 的文件名，width 和 height 为图标的宽度和高度。
+使用步骤：在 vue 组件里使用 Icon 标签，如 `<Icon name="bug" width="20px" height="20px" />`，其中 name 是 svg 的文件名，width 和 height 为图标的宽度和高度。
 
 ### 多环境
 
@@ -518,7 +518,7 @@ router.replace("/redirect" + route.path);
 	name: "Github",
 	meta: {
 		title: "Github",
-		icon: "svg-github",
+		icon: "SVG-github",
 	},
 },
 ```

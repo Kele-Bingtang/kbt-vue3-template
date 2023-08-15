@@ -60,7 +60,10 @@
     "antd",
     "framename",
     "auths",
-		"commitlint",
-		"stylelint"
+    "commitlint",
+    "stylelint",
+    "iconfont",
+    "Iconify",
+    "xlink"
   ]
 }

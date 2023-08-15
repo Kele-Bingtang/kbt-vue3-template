@@ -46,6 +46,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.5.0",
     "@commitlint/config-conventional": "^17.4.4",
+    "@iconify/vue": "^4.1.1",
     "@rushstack/eslint-patch": "^1.1.4",
     "@types/node": "^18.11.12",
     "@types/sortablejs": "^1.15.1",
@@ -59,6 +60,7 @@
     "commitizen": "^4.3.0",
     "cssnano": "^5.1.15",
     "cz-git": "^1.6.1",
+    "dotenv": "^16.3.1",
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
     "husky": "^8.0.3",
