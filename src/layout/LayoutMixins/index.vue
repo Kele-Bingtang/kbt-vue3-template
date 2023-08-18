@@ -30,16 +30,20 @@ import { useSettingsStore } from "@/stores/settings";
 import MainContent from "@/layout/components/MainContent/index.vue";
 import { usePermissionStore } from "@/stores/permission";
 import { useLayout } from "@/hooks/useLayout";
+import { useRoutes } from "@/hooks/useRoutes";
 import settings from "@/config/settings";
 import Menu from "@/layout/components/Menu/index.vue";
 import CollapseTrigger from "@/layout/components/Header/components/CollapseTrigger.vue";
 import HeaderRight from "@/layout/components/Header/HeaderRight.vue";
 import { HOME_URL } from "@/router/routesConfig";
+
 const route = useRoute();
 const router = useRouter();
 const settingsStore = useSettingsStore();
 const permissionStore = usePermissionStore();
 const { getMenuListByRouter } = useLayout();
+const { findParentRoutesByPath } = useRoutes();
+
 // 子菜单
 const activeMenu = ref("");
 const childrenMenu = ref<RouterConfig[]>([]);
@@ -59,6 +63,7 @@ const parentMenu = computed(() => {
   });
   return parentMenu;
 });
+
 watch(
   () => [menuList, route],
   () => {
@@ -66,7 +71,12 @@ watch(
     if (!menuList.value.length) return;
     activeMenu.value = `/${route.path.split("/")[1]}` || route.path;
     const item = menuList.value.filter(
-      item => route.path === item.path || `/${route.path.split("/")[1]}` === item.path || route.path === item.redirect
+      item =>
+        route.path === item.path ||
+        `/${route.path.split("/")[1]}` === item.path ||
+        route.path === item.redirect ||
+        findParentRoutesByPath(route.path, permissionStore.loadedRouteList, "path")[0] === item.path ||
+        findParentRoutesByPath(`/${route.path.split("/")[1]}`, permissionStore.loadedRouteList, "path")[0] === item.path
     );
     if (item[0].children?.length) return (childrenMenu.value = item[0].children);
     childrenMenu.value = [];
@@ -78,8 +88,8 @@ watch(
 );
 </script>
 <style lang="scss" scoped>
-@import "./index-scoped.scss";
+@import "./index-scoped";
 </style>
 <style lang="scss">
-@import "./index-unlimited.scss";
+@import "./index-unlimited";
 </style>
