@@ -2,7 +2,7 @@
   <SvgIcon
     v-if="isSvgIcon"
     :name="name ? name : (icon as string).slice(4)"
-    v-bind="(Object.assign({}, $attrs, attrs) as any)"
+    v-bind="Object.assign({}, $attrs, attrs) as any"
   ></SvgIcon>
   <FontIcon
     v-else-if="isFontIcon"
@@ -13,12 +13,12 @@
   <IconifyOffline
     v-else-if="isIconifyOffline"
     :icon="icon"
-    v-bind="(Object.assign({}, $attrs, attrs) as any)"
+    v-bind="Object.assign({}, $attrs, attrs) as any"
   ></IconifyOffline>
   <IconifyOnline
     v-else-if="isIconifyOnline"
-    :icon="(icon as string)"
-    v-bind="(Object.assign({}, $attrs, attrs) as any)"
+    :icon="icon as string"
+    v-bind="Object.assign({}, $attrs, attrs) as any"
   ></IconifyOnline>
 </template>
 
