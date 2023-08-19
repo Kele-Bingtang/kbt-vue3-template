@@ -15,7 +15,6 @@
           <MenuSearch v-if="errorCount === 0" />
           <ErrorLog id="errorLog" :errorCount="errorCount" v-if="settings.errorLog.showInHeader && errorCount > 0" />
           <LayoutSizeSelect />
-          <LanguageSelect />
           <User id="user" :show-avatar="false" />
         </template>
       </div>
@@ -43,6 +42,7 @@ import User from "@/layout/components/Header/components/User.vue";
 import CollapseTrigger from "@/layout/components/Header/components/CollapseTrigger.vue";
 import { useErrorLogStore } from "@/stores/errorLog";
 import { HOME_URL } from "@/router/routesConfig";
+
 const route = useRoute();
 const router = useRouter();
 const settingsStore = useSettingsStore();
@@ -57,6 +57,7 @@ const errorCount = computed(() => {
 });
 const isCollapse = computed(() => settingsStore.isCollapse);
 const device = computed(() => layoutStore.device);
+
 // 监听路由的变化，判断是移动端还是桌面端
 watch(
   () => route.fullPath,
@@ -66,19 +67,23 @@ watch(
     }
   }
 );
+
 onBeforeMount(() => {
   window.addEventListener("resize", resizeHandler);
 });
+
 onBeforeUnmount(() => {
   window.removeEventListener("resize", resizeHandler);
 });
+
 const handleClickOutSide = () => {
   settingsStore.closeSideMenu();
 };
 </script>
+
 <style lang="scss" scoped>
-@import "./index-scoped.scss";
+@import "./index-scoped";
 </style>
 <style lang="scss">
-@import "./index-unlimited.scss";
+@import "./index-unlimited";
 </style>

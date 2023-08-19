@@ -41,5 +41,5 @@ provide("switchFormMode", switchFormMode);
 </script>
 
 <style lang="scss" scoped>
-@import "./index.scss";
+@import "./index";
 </style>

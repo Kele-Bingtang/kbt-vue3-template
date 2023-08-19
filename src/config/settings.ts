@@ -70,7 +70,7 @@ const themeSettings: Partial<Settings> = {
   showLayoutLogo: true,
   showBreadcrumbIcon: true,
   showTabsNavIcon: false,
-  recordTabsNav: true,
+  recordTabsNav: false,
   isCollapse: false,
   isDark: false,
   isWeak: false,
