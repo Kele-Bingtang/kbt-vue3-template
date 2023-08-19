@@ -13,8 +13,12 @@ import en from "element-plus/es/locale/lang/en";
 import { getBrowserLang } from "./utils";
 import { useTheme } from "./hooks/useTheme";
 import { useFrame } from "./layout/components/FrameLayout/useFrame";
+import { getCacheVersion, removeProjectsCache, setCacheVersion } from "./utils/layout/cache";
+import settings from "@/config/settings";
+import { useSettingsStore } from "@/stores/settings";
 
 const layoutStore = useLayoutStore();
+const settingsStore = useSettingsStore();
 
 // 初始化主题配置
 const { initTheme } = useTheme();
@@ -37,6 +41,7 @@ const layoutSize = computed(() => layoutStore.layoutSize);
 
 onMounted(() => {
   handleMsgFromFrame();
+  versionCache();
 });
 
 const { acceptFrameMsg } = useFrame();
@@ -45,7 +50,29 @@ const { acceptFrameMsg } = useFrame();
  * 消息：需要打开的连接
  */
 const handleMsgFromFrame = () => {
-  window.addEventListener("message", acceptFrameMsg);
+  if (settings.watchFrame) window.addEventListener("message", acceptFrameMsg);
+};
+
+/**
+ * 根据版本号进行缓存
+ */
+const versionCache = () => {
+  const { version } = __APP_INFO__.pkg;
+  const cacheVersion = getCacheVersion();
+  if (version && cacheVersion !== version) {
+    const { layoutSize, language } = settings;
+    settingsStore.$patch({
+      ...settings,
+      menuTheme: settings.layoutTheme,
+    });
+    layoutStore.$patch({
+      layoutSize,
+      language,
+    });
+    layoutStore.removeAllTabs();
+    removeProjectsCache();
+    setCacheVersion(version);
+  }
 };
 </script>
 

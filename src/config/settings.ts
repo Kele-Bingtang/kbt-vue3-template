@@ -50,6 +50,7 @@ interface Settings {
   settingCacheKey: string; // 缓存配置的 key
   layoutCacheKey: string; // 缓存布局的 key
   tabsNavCacheKey: string; // 缓存标签页的 key
+  versionCacheKey: string; // 缓存版本号的 key
   tabActiveExcludes: string[]; // 当 URL 携带 ? 的参数时，标签页的 path 也会携带参数，当 recordTabsNav 为 true 时，会造成多个重复的只是 ? 参数不一样的标签页，该选项指定当出现指定参数不会加载到 path，即该标签的 path 只保留 ? 前面的链接。当存在多个条件，满足任意一个即可
   isKeepAlive: boolean; // 路由是否开启缓存
   isFull: boolean; // 是否全屏，不渲染 Layout 布局，只渲染当前路由组件
@@ -57,6 +58,7 @@ interface Settings {
   cacheDynamicRoutesKey: string; // 缓存路由的 key
   tooltipEffect: "light" | "dark"; // 布局的 el-toolTip 风格
   routeUseTooltip: boolean; // 菜单的文字超出后，是否使用 el-toolTip 提示，仅针二级路由及以上生效
+  watchFrame: boolean; // 是否监听 IFrame 传来的通信，用于 Portal 门户系统，来监听门户所有 IFrame 嵌入系统的通信，比如 A 系统想打开 B 系统，则告诉 Portal 门户帮忙打开
 }
 
 const themeSettings: Partial<Settings> = {
@@ -89,6 +91,7 @@ const layoutSettings: Partial<Settings> = {
   tooltipEffect: "light",
   layoutSize: "default",
   language: "zh-CN",
+  watchFrame: false,
 };
 
 const routerSettings: Partial<Settings> = {
@@ -105,6 +108,7 @@ const keySetting: Partial<Settings> = {
   layoutCacheKey: "kbt_layoutStore",
   tabsNavCacheKey: "kbt_tabsNav",
   cacheDynamicRoutesKey: "kbt_dynamic_routes",
+  versionCacheKey: "kbt_version",
   tabActiveExcludes: ["layoutMode"],
 };
 
