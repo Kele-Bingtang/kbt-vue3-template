@@ -33,7 +33,7 @@ const errorCount = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 30px 0 0;
+  margin: 0 20px 0 0;
 
   .header-icon {
     display: flex;
