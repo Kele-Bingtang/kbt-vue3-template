@@ -13,7 +13,7 @@ import I18n from "@/languages/index";
 // svg icons
 import "virtual:svg-icons-register";
 import Icon from "@/components/Icon/index.vue";
-import errorHandler from "@/utils/layout/errorHandler";
+import errorHandler, { checkNeed } from "@/utils/layout/errorHandler";
 import Auth from "@/components/Permission/auth";
 import Role from "@/components/Permission/role.vue";
 
@@ -21,7 +21,7 @@ const pinia = createPinia();
 const app = createApp(App);
 pinia.use(piniaPluginPersistedstate);
 
-app.config.errorHandler = errorHandler;
+checkNeed() && (app.config.errorHandler = errorHandler);
 
 // 全局注册按钮级别权限组件
 app.component("Auth", Auth);
