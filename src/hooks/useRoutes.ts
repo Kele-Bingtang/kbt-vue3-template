@@ -9,8 +9,8 @@ import settings from "@/config/settings";
 import type { BackstageMenuList } from "@/api/menu";
 
 const modules = import.meta.glob("@/views/**/*.vue");
-const FrameView = () => import("@/layout/components/FrameLayout/frameView.vue");
-const FrameBlank = () => import("@/layout/components/FrameLayout/blankFrame.vue");
+const FrameView = () => import("@/layout/components/FrameLayout/FrameView.vue");
+const FrameBlank = () => import("@/layout/components/FrameLayout/BlankFrame.vue");
 
 export const useRoutes = () => {
   const permissionStore = usePermissionStore();
