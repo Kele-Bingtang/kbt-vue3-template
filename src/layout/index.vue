@@ -13,6 +13,7 @@ import LayoutSubsystem from "./LayoutSubsystem/index.vue";
 import ThemeDrawer from "@/layout/components/ThemeDrawer/index.vue";
 import { useSettingsStore } from "@/stores/settings";
 import { useLayout } from "@/hooks/useLayout";
+import { getPx, setStyleVar } from "@/utils";
 
 const LayoutComponents: { [key: string]: Component } = {
   vertical: LayoutVertical,
@@ -32,6 +33,22 @@ const { setBrowserTitle } = useLayout();
 watch(
   () => route.fullPath,
   () => setBrowserTitle(route), // 修改页面的 title
+  {
+    immediate: true,
+  }
+);
+
+watch(
+  () => settingsStore.menuWidth,
+  () => setStyleVar("--aside-width", getPx(settingsStore.menuWidth)),
+  {
+    immediate: true,
+  }
+);
+
+watch(
+  () => settingsStore.headerHeight,
+  () => setStyleVar("--el-menu-horizontal-height", getPx(settingsStore.headerHeight)),
   {
     immediate: true,
   }

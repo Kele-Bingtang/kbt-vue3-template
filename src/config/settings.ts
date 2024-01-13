@@ -22,6 +22,8 @@ interface Settings {
   isWeak: boolean; // 是否开启灰色主题
   isGrey: boolean; // 是否开启色弱主题
   recordTabsNav: boolean; // 是否记录打开过（没关闭）的 tags，下次打开会加载在 tagsNav
+  menuWidth: string; // 菜单宽度
+  headerHeight: string; // 顶部高度
   maximize: boolean; // MainContent 是否开启最大化，默认不开启（false）
   primaryTheme: string; // 主题色
   layoutTheme: LayoutThemeType; // 侧边菜单栏的主题色，暗色和亮色，默认为暗色
@@ -78,6 +80,8 @@ const themeSettings: Partial<Settings> = {
   maximize: false,
   primaryTheme: "#168BF7", // 蓝色偏暗：#168BF7，官方：#409EFF
   layoutTheme: LayoutThemeType.Light,
+  menuWidth: "210px",
+  headerHeight: "55px",
 };
 
 const layoutSettings: Partial<Settings> = {

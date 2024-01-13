@@ -1,3 +1,5 @@
+import { isNumber, isString } from "./layout/validate";
+
 /**
  * @description 数据解耦后，再返回
  */
@@ -208,4 +210,21 @@ export const isIncludeAll = (arr: string[], value: string[]) => {
  */
 export const isIncludeSome = (arr: string[], value: string[]) => {
   return arr.some(a => value.includes(a));
+};
+
+/**
+ * 设置 css var 需要的变量
+ * @param key key
+ * @param value value
+ */
+export const setStyleVar = (key: string, value: string) => {
+  document.documentElement.style.setProperty(key, value);
+};
+
+export const getPx = (val: number | string) => {
+  if (isString(val)) {
+    if (isNumber(val)) return `${val}px`;
+    return val;
+  }
+  return `${val}px`;
 };

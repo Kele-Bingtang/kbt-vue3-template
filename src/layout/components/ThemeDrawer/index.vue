@@ -5,6 +5,7 @@
       <el-icon><Notification /></el-icon>
       布局切换
     </el-divider>
+
     <div class="layout-box">
       <el-tooltip effect="dark" content="纵向" placement="top" :show-after="200">
         <div
@@ -22,6 +23,7 @@
           <el-icon v-if="settingsStore.layoutMode == LayoutModeType.Vertical"><CircleCheckFilled /></el-icon>
         </div>
       </el-tooltip>
+
       <el-tooltip effect="dark" content="经典" placement="top" :show-after="200">
         <div
           :class="[
@@ -38,6 +40,7 @@
           <el-icon v-if="settingsStore.layoutMode == LayoutModeType.Classic"><CircleCheckFilled /></el-icon>
         </div>
       </el-tooltip>
+
       <el-tooltip effect="dark" content="横向" placement="top" :show-after="200">
         <div
           :class="[
@@ -51,6 +54,7 @@
           <el-icon v-if="settingsStore.layoutMode == LayoutModeType.Transverse"><CircleCheckFilled /></el-icon>
         </div>
       </el-tooltip>
+
       <el-tooltip effect="dark" content="分栏" placement="top" :show-after="200">
         <div
           :class="[
@@ -65,6 +69,7 @@
           <el-icon v-if="settingsStore.layoutMode === LayoutModeType.Columns"><CircleCheckFilled /></el-icon>
         </div>
       </el-tooltip>
+
       <el-tooltip effect="dark" content="混合" placement="top" :show-after="200">
         <div
           :class="['layout-item layout-mixins', settingsStore.layoutMode == LayoutModeType.Mixins ? 'is-active' : '']"
@@ -78,6 +83,7 @@
           <el-icon v-if="settingsStore.layoutMode == LayoutModeType.Mixins"><CircleCheckFilled /></el-icon>
         </div>
       </el-tooltip>
+
       <el-tooltip effect="dark" content="子系统" placement="top" :show-after="200">
         <div
           :class="[
@@ -92,6 +98,7 @@
         </div>
       </el-tooltip>
     </div>
+
     <template
       v-if="
         settingsStore.layoutMode === LayoutModeType.Vertical ||
@@ -193,11 +200,13 @@
         </el-icon>
       </div>
     </div>
+
     <!-- 全局主题 -->
     <el-divider class="divider" content-position="center">
       <el-icon><ColdDrink /></el-icon>
       全局主题
     </el-divider>
+
     <div class="drawer-item">
       <span>主题色</span>
       <el-color-picker v-model="settingsStore.primaryTheme" :predefine="colorList" @change="changePrimary" />
@@ -220,11 +229,13 @@
       <span>色弱模式</span>
       <el-switch v-model="settingsStore.isWeak" @change="changeGreyOrWeak($event as boolean, 'weak')" />
     </div>
+
     <!-- 界面设置 -->
     <el-divider class="divider" content-position="center">
       <el-icon><Setting /></el-icon>
       界面配置
     </el-divider>
+
     <div class="drawer-item">
       <span>折叠菜单</span>
       <el-switch v-model="settingsStore.isCollapse" />
@@ -257,10 +268,22 @@
       <span>内容区域最大化</span>
       <el-switch v-model="settingsStore.maximize" />
     </div>
+
+    <div>
+      <span style="font-size: 14px">顶部高度</span>
+      <el-slider v-model="settingsStore.headerHeight" :min="30" :max="70" />
+    </div>
+
+    <div>
+      <span style="font-size: 14px">菜单宽度</span>
+      <el-slider v-model="settingsStore.menuWidth" :min="100" :max="400" />
+    </div>
+
     <el-divider class="divider" content-position="center">
       <el-icon><Box /></el-icon>
       标题切换
     </el-divider>
+
     <div class="drawer-item">
       <el-select v-model="settingsStore.titleMode" placeholder="页面 Title" @change="handleTitleModeSelect">
         <el-option
@@ -272,7 +295,9 @@
         ></el-option>
       </el-select>
     </div>
+
     <el-divider />
+
     <el-button plain :icon="Refresh" @click="resetSettings">重置配置</el-button>
   </el-drawer>
 </template>

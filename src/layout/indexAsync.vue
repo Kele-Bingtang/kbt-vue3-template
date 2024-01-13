@@ -15,6 +15,7 @@ import { useSettingsStore } from "@/stores/settings";
 import { useLayout } from "@/hooks/useLayout";
 import ThemeDrawer from "@/layout/components/ThemeDrawer/index.vue";
 import Loading from "./components/Loading/index.vue";
+import { getPx, setStyleVar } from "@/utils";
 
 const LayoutComponents: { [key: string]: Component } = {
   vertical: defineAsyncComponent(() => import("./LayoutVertical/index.vue")),
@@ -34,6 +35,22 @@ const { setBrowserTitle } = useLayout();
 watch(
   () => route.fullPath,
   () => setBrowserTitle(route), // 修改页面的 title
+  {
+    immediate: true,
+  }
+);
+
+watch(
+  () => settingsStore.menuWidth,
+  () => setStyleVar("--aside-width", getPx(settingsStore.menuWidth)),
+  {
+    immediate: true,
+  }
+);
+
+watch(
+  () => settingsStore.headerHeight,
+  () => setStyleVar("--el-menu-horizontal-height", getPx(settingsStore.headerHeight)),
   {
     immediate: true,
   }
