@@ -67,9 +67,13 @@ watchEffect(() => {
 <style lang="scss" scoped>
 .el-main {
   box-sizing: border-box;
-  padding: 10px 12px;
+  padding: 0;
   overflow-x: hidden;
   background-color: #f0f2f5;
+
+  .content-container {
+    padding: 10px 12px;
+  }
 
   &::-webkit-scrollbar {
     background-color: #f0f2f5;

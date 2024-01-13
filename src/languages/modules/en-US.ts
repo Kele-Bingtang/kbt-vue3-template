@@ -42,6 +42,8 @@ export default {
     showTagsNav: "Show TagsNav",
     showTabsNavIcon: "Show TabsNav Icon",
     recordTagsNav: "Cache Tabs Access",
+    headerHeight: "Header Height",
+    menuWidth: "Menu Width",
     showLayoutLogo: "Show The Side Menu Logo",
     titleModeOne: "Project Title + Page Title",
     titleModeTwo: "User Name + Page Title",

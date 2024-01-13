@@ -5,9 +5,9 @@
         <img src="@/assets/images/logo.png" alt="logo" v-if="settingsStore.showLayoutLogo" />
       </div>
       <el-scrollbar>
-        <div class="split-list flx-center">
+        <div class="split-list">
           <div
-            class="split-item"
+            class="split-item flx-center"
             :class="{ 'split-active': splitActive === item.path || `/${splitActive.split('/')[1]}` === item.path }"
             v-for="item in menuList"
             :key="item.path"
