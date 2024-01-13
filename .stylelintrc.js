@@ -92,6 +92,7 @@ module.exports = {
     "src/styles/*.css",
     "**/*.module.scss",
     "src/assets/**/*.*",
+    "packages/styles/*.css",
   ],
   overrides: [
     // 扫描 .vue/html 文件中的 <style> 标签内的样式

@@ -1,0 +1,14 @@
+{
+  "name": "@template/utils",
+  "version": "0.0.1",
+  "description": "all utils are settled here",
+  "dependencies": {
+    "vue": "^3.3.10",
+    "element-plus": "^2.5.1",
+    "mitt": "^3.0.1",
+    "nprogress": "^0.2.0"
+  },
+  "devDependencies": {
+    "@types/nprogress": "0.2.0"
+  }
+}

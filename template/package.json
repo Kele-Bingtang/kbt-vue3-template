@@ -1,0 +1,66 @@
+{
+  "name": "template",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite --mode development",
+    "serve": "vite --mode development",
+    "build": "rimraf dist && vite build --mode production",
+    "build:prod": "rimraf dist && vite build --mode production",
+    "build:test": "rimraf dist && vite build --mode test",
+    "preview": "vite preview",
+    "report": "rimraf dist && vite build",
+    "cloc": "NODE_OPTIONS=--max-old-space-size=4096 cloc . --exclude-dir=node_modules",
+    "clean:cache": "rm -rf node_modules && rm -rf .eslintcache && yarn install",
+    "lint:lint-staged": "lint-staged -c ./.husky/lintstagedrc.js",
+    "lint:stylelint": "stylelint \"**/*.{vue,css,scss,postcss,less}\" --fix",
+    "lint:prettier": "prettier --write  \"src/**/*.{js,ts,json,tsx,css,less,scss,vue,html,md}\"",
+    "lint:eslint": "eslint --max-warnings 0  \"{src,mock,build}/**/*.{vue,js,ts,tsx}\" --fix",
+    "lint": "yarn lint:eslint && yarn lint:prettier && yarn lint:stylelint",
+    "release": "standard-version",
+    "commit": "git add . && git-cz && git push"
+  },
+  "browserslist": [
+    "> 1%",
+    "not ie 11",
+    "not op_mini all"
+  ],
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@vueuse/core": "^10.7.1",
+    "dayjs": "^1.11.10",
+    "element-plus": "^2.5.1",
+    "path-to-regexp": "^6.2.1",
+    "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.1",
+    "qs": "^6.11.2",
+    "sortablejs": "^1.15.1",
+    "vue": "^3.4.13",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@iconify/vue": "^4.1.1",
+    "@types/node": "^20.11.0",
+    "@types/qs": "^6.9.7",
+    "@types/sortablejs": "^1.15.7",
+    "unplugin-auto-import": "^0.17.3",
+    "vite": "^4.5.1",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vite-plugin-vue-setup-extend": "^0.4.0",
+    "vue-tsc": "^1.8.8"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
+  },
+  "standard-version": {
+    "skip": {
+      "bump": true,
+      "commit": true,
+      "tag": true
+    }
+  }
+}

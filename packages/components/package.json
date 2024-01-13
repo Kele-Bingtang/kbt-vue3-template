@@ -1,0 +1,14 @@
+{
+  "name": "@template/components",
+  "version": "0.0.1",
+  "description": "all components are settled here",
+  "dependencies": {
+    "element-plus": "^2.5.1",
+    "@element-plus/icons-vue": "^2.3.1",
+    "vue": "^3.3.10",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@iconify/vue": "^4.1.1"
+  }
+}

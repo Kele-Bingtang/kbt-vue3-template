@@ -1,0 +1,8 @@
+{
+  "name": "@template/directives",
+  "version": "0.0.1",
+  "description": "all directives are settled here",
+  "dependencies": {
+    "vue": "^3.3.10"
+  }
+}
