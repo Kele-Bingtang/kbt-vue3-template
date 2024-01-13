@@ -221,6 +221,11 @@ export const setStyleVar = (key: string, value: string) => {
   document.documentElement.style.setProperty(key, value);
 };
 
+/**
+ * 补 px 单位
+ * @param val 值
+ * @returns 补 px 单位的 string
+ */
 export const getPx = (val: number | string) => {
   if (isString(val)) {
     if (isNumber(val)) return `${val}px`;

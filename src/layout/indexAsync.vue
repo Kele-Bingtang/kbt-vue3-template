@@ -40,21 +40,9 @@ watch(
   }
 );
 
-watch(
-  () => settingsStore.menuWidth,
-  () => setStyleVar("--aside-width", getPx(settingsStore.menuWidth)),
-  {
-    immediate: true,
-  }
-);
+watchEffect(() => setStyleVar("--aside-width", getPx(settingsStore.menuWidth)));
 
-watch(
-  () => settingsStore.headerHeight,
-  () => setStyleVar("--el-menu-horizontal-height", getPx(settingsStore.headerHeight)),
-  {
-    immediate: true,
-  }
-);
+watchEffect(() => setStyleVar("--el-menu-horizontal-height", getPx(settingsStore.headerHeight)));
 </script>
 
 <style lang="scss">
