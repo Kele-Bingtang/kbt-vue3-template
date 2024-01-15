@@ -25,7 +25,7 @@ export function getPluginsList(command: string, viteEnv: ViteEnv) {
     }),
     // * 使用 svg 图标
     createSvgIconsPlugin({
-      iconDirs: [resolve(process.cwd(), "src/assets/svg")],
+      iconDirs: [resolve(process.cwd(), "../packages/static/svg")],
       symbolId: "icon-[dir]-[name]",
     }),
     viteEnv.VITE_BUILD_GZIP && configCompressPlugin(viteEnv.VITE_COMPRESSION),
