@@ -5,7 +5,7 @@
     <router-view v-slot="{ Component, route }">
       <CustomTransition appear name="fade-transform">
         <keep-alive :include="layoutStore.keepAliveName">
-          <component :is="Component" :key="route.path" v-if="isRouterShow" />
+          <component :is="Component" :key="route.path" v-if="isRouterShow" class="main-content" />
         </keep-alive>
       </CustomTransition>
     </router-view>
@@ -71,12 +71,14 @@ watchEffect(() => {
   overflow-x: hidden;
   background-color: #f0f2f5;
 
-  .content-container {
-    padding: 10px 12px;
-  }
-
   &::-webkit-scrollbar {
     background-color: #f0f2f5;
   }
+}
+
+// 放在外面是支持自定义 View 覆盖样式
+.main-content {
+  height: calc(100% - 40px);
+  padding: 10px 12px;
 }
 </style>
