@@ -8,8 +8,10 @@
 
 <script setup lang="ts" name="FrameLayout">
 import FrameView from "./FrameView.vue";
-import { useLayoutStore } from "@/stores/layout";
+import { useLayoutStore } from "@/stores";
 import { useFrame, type Frame } from "./useFrame";
+import { computed, unref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 const layoutStore = useLayoutStore();
 const { showIframe } = useFrame();

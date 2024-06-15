@@ -11,11 +11,14 @@ import LayoutColumns from "./LayoutColumns/index.vue";
 import LayoutMixins from "./LayoutMixins/index.vue";
 import LayoutSubsystem from "./LayoutSubsystem/index.vue";
 import ThemeDrawer from "@/layout/components/ThemeDrawer/index.vue";
-import { useSettingsStore } from "@/stores/settings";
-import { useLayout } from "@/hooks/useLayout";
+import { useSettingsStore, useUserStore, useWebSocketStore } from "@/stores";
+import { useLayout } from "@/hooks";
 import { getPx, setStyleVar } from "@template/utils";
+import { type Component, computed, watch, watchEffect } from "vue";
+import { useRoute } from "vue-router";
+import { WebSocketKey } from "@/config/symbols";
 
-const LayoutComponents: { [key: string]: Component } = {
+const LayoutComponents: Record<string, Component> = {
   vertical: LayoutVertical,
   classic: LayoutClassic,
   transverse: LayoutTransverse,
@@ -40,7 +43,16 @@ watch(
 
 watchEffect(() => setStyleVar("--aside-width", getPx(settingsStore.menuWidth)));
 
-watchEffect(() => setStyleVar("--el-menu-horizontal-height", getPx(settingsStore.headerHeight)));
-</script>
+watchEffect(() => setStyleVar("--header-height", getPx(settingsStore.headerHeight)));
 
-<style lang="scss"></style>
+// 初始化 WebSocket
+if (import.meta.env.VITE_WEBSOCKET === "true") {
+  const useWebSocket = useWebSocketStore();
+  const url = import.meta.env.VITE_WEBSOCKET_URL || "";
+
+  // url 后面的 ?token= 为认证信息，需要后端配合获取 token 来认证（这是普通的 GET 请求，WebSocket 无法放入请求头或者发起 POST 请求）
+  url && useWebSocket.connect(url + "?token=" + useUserStore().token);
+
+  provide(WebSocketKey, useWebSocket);
+}
+</script>

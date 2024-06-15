@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "description": "i18n",
   "dependencies": {
-    "vue-i18n": "^9.9.0"
+    "vue-i18n": "^9.13.1"
   }
 }

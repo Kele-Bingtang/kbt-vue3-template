@@ -1,58 +1,88 @@
 <template>
+  <ElIcon v-if="isElIcon(icon)">
+    <component v-if="isString(icon)" :is="icon.slice(3)"></component>
+    <component v-else :is="iconRaw"></component>
+  </ElIcon>
   <SvgIcon
-    v-if="isSvgIcon(name, icon)"
+    v-else-if="isSvgIcon(name, icon)"
     :name="name ? name : (icon as string).slice(4)"
+    :color="color"
     v-bind="attrsComputed as any"
+    :class="prefixClass"
   ></SvgIcon>
   <FontIcon
     v-else-if="isFontIcon(icon)"
     :icon="fontIcon.iconName"
     :iconType="fontIcon.iconType"
     v-bind="attrsComputed"
+    :color="color"
+    :class="prefixClass"
   ></FontIcon>
-  <IconifyOffline v-else-if="isIconifyOffline(icon)" :icon="icon" v-bind="attrsComputed"></IconifyOffline>
-  <IconifyOnline v-else-if="isIconifyOnline(icon)" :icon="icon" v-bind="attrsComputed"></IconifyOnline>
+  <IconifyOffline
+    v-else-if="isIconifyOffline(icon)"
+    :icon="icon"
+    v-bind="attrsComputed"
+    :color="color"
+    :class="prefixClass"
+  ></IconifyOffline>
+  <IconifyOnline v-else-if="isIconifyOnline(icon)" :icon="icon" v-bind="attrsComputed" :color="color"></IconifyOnline>
 </template>
 
-<script setup lang="ts" name="Icon">
+<script setup lang="ts">
 import SvgIcon from "./components/vue/SvgIcon.vue";
 import FontIcon from "./components/vue/FontIcon.vue";
 import IconifyOffline from "./components/vue/IconifyOffline.vue";
 import IconifyOnline from "./components/vue/IconifyOnline.vue";
 import type { IconType } from "./iconType";
 import type { IconifyIcon } from "@iconify/vue";
-import { useAttrs, computed } from "vue";
+import { useAttrs, computed, type Component, toRaw } from "vue";
+import { ElIcon } from "element-plus";
+import { useDesign } from "@template/hooks";
 
-const ifReg = /^IF-/;
-const svgReg = /^SVG-/;
+defineOptions({ name: "Icon" });
 
-type IconTypes = string | Object | IconifyIcon;
+const { getPrefixClass } = useDesign();
+const prefixClass = getPrefixClass("icon");
+
+type IconTypes = string | Object | IconifyIcon | Component;
+
+type Undefined<T> = T | undefined;
 
 interface IconProps {
   icon?: IconTypes;
   name?: string;
+  color?: string;
+  hoverColor?: string;
   attrs?: IconType;
 }
 
-const props = defineProps<IconProps>();
+const props = withDefaults(defineProps<IconProps>(), { hoverColor: "" });
 const attrsProp = useAttrs();
 
 const attrsComputed = computed(() => Object.assign({}, attrsProp, props.attrs));
 
-const isSvgIcon = (name: string | undefined, icon: IconTypes | undefined): name is string =>
-  !!name || (typeof icon === "string" && svgReg.test(icon));
+const iconRaw = computed(() => toRaw(props.icon));
 
-const isFontIcon = (icon: IconTypes | undefined): icon is string =>
-  !!icon && typeof icon === "string" && ifReg.test(icon);
+const isElIcon = (icon: Undefined<IconTypes>) => {
+  if (isString(icon) && icon.toLowerCase().startsWith("el-")) return true;
+  if ((icon as Component)?.name) return true;
+  return false;
+};
 
-const isIconifyOffline = (icon: IconTypes | undefined): icon is string | Object | IconifyIcon =>
-  !!icon && (typeof icon === "object" || !icon?.includes(":"));
+const isSvgIcon = (name: Undefined<string>, icon: Undefined<IconTypes>): name is string =>
+  !!name || (isString(icon) && icon.toLowerCase().startsWith("svg-"));
 
-const isIconifyOnline = (icon: IconTypes | undefined): icon is string => !!icon && typeof icon === "string";
+const isFontIcon = (icon: Undefined<IconTypes>): icon is string =>
+  !!icon && isString(icon) && icon.toLowerCase().startsWith("if-");
+
+const isIconifyOffline = (icon: Undefined<IconTypes>): icon is string | Object | IconifyIcon =>
+  !!icon && (!!(icon as IconifyIcon)?.body || !(icon as string)?.includes(":"));
+
+const isIconifyOnline = (icon: Undefined<IconTypes>): icon is string => !!icon && isString(icon);
 
 const fontIcon = computed(() => {
   if (props.icon && isFontIcon(props.icon)) {
-    const name = (props.icon as string)?.split(ifReg)[1];
+    const name = (props.icon as string)?.toLowerCase().split("if-")[1];
     const iconName = name.slice(0, name.indexOf(" ") === -1 ? name.length : name.indexOf(" "));
     const iconType = name.slice(name.indexOf(" ") + 1, name.length);
     return {
@@ -65,4 +95,34 @@ const fontIcon = computed(() => {
     iconType: "",
   };
 });
+
+const isString = (icon: Undefined<IconTypes>): icon is string => {
+  return typeof icon === "string";
+};
 </script>
+
+<style lang="scss" scoped>
+$prefix-class: #{$admin-namespace}-icon;
+
+.#{$prefix-class} {
+  &:hover {
+    color: v-bind(hoverColor) !important;
+  }
+}
+
+.iconify {
+  &:hover {
+    color: v-bind(hoverColor) !important;
+  }
+}
+</style>
+
+<style lang="scss">
+$prefix-class: #{$admin-namespace}-icon;
+
+.#{$prefix-class}.iconfont {
+  &:hover {
+    color: v-bind(hoverColor) !important;
+  }
+}
+</style>

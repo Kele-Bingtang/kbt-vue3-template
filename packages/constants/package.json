@@ -1,5 +1,8 @@
 {
   "name": "@template/constants",
   "version": "0.0.1",
-  "description": "all constants are settled here"
+  "description": "all constants are settled here",
+  "dependencies": {
+    "vue": "^3.4.27"
+  }
 }

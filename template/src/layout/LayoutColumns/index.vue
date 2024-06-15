@@ -1,22 +1,25 @@
 <template>
-  <el-container class="layout-container" :class="{ 'menu-collapse': isCollapse, 'menu-expand': !isCollapse }">
-    <div class="aside-split">
-      <div class="logo flx-center" @click="router.push(HOME_URL)">
+  <el-container :class="[prefixClass, isCollapse ? 'menu-collapse' : 'menu-expand']">
+    <div :class="`${prefixClass}__aside`">
+      <div :class="`${prefixClass}__aside__logo layout__logo flx-center`" @click="router.push(HOME_URL)">
         <img src="@template/static/images/logo.png" alt="logo" v-if="settingsStore.showLayoutLogo" />
       </div>
       <el-scrollbar>
-        <div class="split-list">
+        <div :class="`${prefixClass}__aside__list`">
           <div
-            class="split-item flx-center"
-            :class="{ 'split-active': splitActive === item.path || `/${splitActive.split('/')[1]}` === item.path }"
+            class="flx-center"
+            :class="[
+              `${prefixClass}__aside__list-item`,
+              { 'split-active': splitActive === item.path || `/${splitActive.split('/')[1]}` === item.path },
+            ]"
             v-for="item in menuList"
             :key="item.path"
             @click="changeMenuItem(item)"
           >
-            <CommonIcon v-if="item.meta.icon" :icon="item.meta.icon" />
+            <Icon v-if="item.meta?.icon" :icon="item.meta.icon" />
             <div class="flx-center" style="width: 100%">
               <Tooltip :effect="settings.tooltipEffect">
-                <span class="title">{{ item.meta.title }}</span>
+                <span :class="`${prefixClass}__aside__list-item__title`">{{ item.meta?.title }}</span>
               </Tooltip>
             </div>
           </div>
@@ -24,11 +27,11 @@
       </el-scrollbar>
     </div>
     <el-aside :class="{ 'not-aside': !menuItem.length }">
-      <div class="logo flx-center">
+      <div :class="`${prefixClass}__aside__logo layout__logo flx-center`">
         <span v-show="menuItem.length">{{ isCollapse ? "K" : settings.title }}</span>
       </div>
-      <el-scrollbar>
-        <Menu :menu-list="menuItem" />
+      <el-scrollbar v-if="menuItem?.length">
+        <Menu :menu-list="menuItem" :class="`${prefixClass}__menu`" :popper-class="`${prefixClass}__menu`" />
       </el-scrollbar>
     </el-aside>
     <el-container>
@@ -41,16 +44,21 @@
 </template>
 
 <script setup lang="ts" name="LayoutVertical">
-import { useSettingsStore } from "@/stores/settings";
+import { computed, watch, ref, unref } from "vue";
+import { ElContainer, ElAside, ElHeader, ElScrollbar } from "element-plus";
+import { useSettingsStore, usePermissionStore } from "@/stores";
 import MainContent from "@/layout/components/MainContent/index.vue";
 import Header from "@/layout/components/Header/index.vue";
-import { usePermissionStore } from "@/stores/permission";
-import { useLayout } from "@/hooks/useLayout";
+import { useLayout } from "@/hooks";
 import settings from "@/config/settings";
-import CommonIcon from "@/layout/components/CommonIcon/index.vue";
 import Menu from "@/layout/components/Menu/index.vue";
 import { Tooltip } from "@template/components";
 import { HOME_URL } from "@/router/routesConfig";
+import { useDesign } from "@template/hooks";
+import { useRoute, useRouter } from "vue-router";
+
+const { getPrefixClass } = useDesign();
+const prefixClass = getPrefixClass("columns-layout");
 
 const route = useRoute();
 const router = useRouter();
@@ -72,15 +80,16 @@ const menuList = computed(() => {
 });
 
 watch(
-  () => [menuList, route],
+  route,
   () => {
     // 当前菜单没有数据直接 return
-    if (!menuList.value.length) return;
+    if (!unref(menuList).length) return;
     splitActive.value = route.path;
-    const item = menuList.value.filter(
+    const item = unref(menuList).filter(
       item => route.path === item.path || `/${route.path.split("/")[1]}` === item.path
     );
-    if (item[0].children?.length) return (menuItem.value = item[0].children);
+
+    if (item[0] && item[0].children?.length) return (menuItem.value = item[0].children);
     menuItem.value = [];
   },
   {
@@ -98,9 +107,9 @@ const changeMenuItem = (item: RouterConfig) => {
 </script>
 
 <style lang="scss" scoped>
-@import "./index-scoped";
+@import "./index";
 </style>
 
 <style lang="scss">
-@import "./index-unlimited";
+@import "./menu";
 </style>

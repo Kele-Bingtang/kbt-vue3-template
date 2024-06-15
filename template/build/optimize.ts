@@ -7,18 +7,21 @@
 const include = [
   "qs",
   "mitt",
+  "xlsx",
   "axios",
   "pinia",
   "vue-i18n",
   "sortablejs",
   "@vueuse/core",
-  "path-to-regexp",
+  "countup",
+  "file-saver",
   "pinia-plugin-persistedstate",
+  "vuedraggable",
 ];
 
 /**
  * 在预构建中强制排除的依赖项
  */
-const exclude = [""];
+const exclude = ["@iconify-icons/ant-design"];
 
 export { include, exclude };

@@ -42,7 +42,8 @@
 </template>
 
 <script setup lang="ts" name="MenuButton">
-import { useSettingsStore } from "@/stores/settings";
+import { ElDropdown, ElDropdownMenu, ElDropdownItem, ElIcon, ElButton } from "element-plus";
+import { useSettingsStore } from "@/stores";
 import { useDebounceFn } from "@vueuse/core";
 import { useTabsNav } from "../useTabsNav";
 import {
@@ -55,6 +56,8 @@ import {
   SemiSelect,
   FolderDelete,
 } from "@element-plus/icons-vue";
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 const {
   contextMenuCondition,
@@ -88,5 +91,3 @@ watch(
   () => (selectedTab.value = getOneTab(route))
 );
 </script>
-
-<style lang="scss" scoped></style>

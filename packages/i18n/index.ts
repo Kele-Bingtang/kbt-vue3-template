@@ -2,8 +2,7 @@ import { createI18n } from "vue-i18n";
 import zhCN from "./modules/zh-CN";
 import enUS from "./modules/en-US";
 import { getBrowserLang } from "@template/utils";
-import { layoutCacheKey } from "@template/constants";
-import type { WritableComputedRef } from "vue";
+import { TEMPLATE_PREFIX } from "@template/constants";
 
 const messages = {
   "zh-CN": zhCN,
@@ -11,7 +10,7 @@ const messages = {
 };
 
 export const getLocale = () => {
-  const layoutCache = localStorage.getItem(layoutCacheKey);
+  const layoutCache = localStorage.getItem(`${TEMPLATE_PREFIX}_layoutStore`);
   const layoutStore = layoutCache ? JSON.parse(layoutCache) : "";
   const cookieLanguage = layoutStore ? layoutStore.language : layoutStore;
   if (cookieLanguage) {
@@ -37,7 +36,7 @@ export const getLocale = () => {
  */
 function siphonI18n(prefix = "zh-CN") {
   return Object.fromEntries(
-    //  key 表示文件名，value 表示模块的默认导出，所以文件名在这里统一是 zh-CN.yml 和 en-US.yml
+    // key 表示文件名，value 表示模块的默认导出，所以文件名在这里统一是 zh-CN.yml 和 en-US.yml
     Object.entries(import.meta.glob("./modules/*.ts", { eager: true })).map(([key, value]: any) => {
       // 数组的第一个元素是文件名，第二个元素是内容
       const matched = key.match(/([A-Za-z0-9-_]+)\./i)[1];
@@ -57,7 +56,7 @@ export function transformI18n(message: any = ""): string {
 
   // 处理存储动态路由的 title，格式 { zh: "", en: "" }
   if (typeof message === "object") {
-    const locale: string | WritableComputedRef<string> | any = i18n.global.locale;
+    const locale: string | any = i18n.global.locale;
     return message[locale?.value];
   }
   const key = message.match(/(\S*)\./)?.[1];

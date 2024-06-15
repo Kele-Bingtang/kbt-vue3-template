@@ -19,9 +19,13 @@
     </div>
   </template>
 </template>
-<script setup lang="ts" name="Tooltip">
-import { ref, useSlots, computed, onMounted, onBeforeMount, onUpdated } from "vue";
+
+<script setup lang="ts">
 import { isArray } from "@template/utils";
+import { useSlots, ref, computed, onMounted, onUpdated, onBeforeMount, unref } from "vue";
+import { ElTooltip } from "element-plus";
+
+defineOptions({ name: "Tooltip" });
 
 interface TooltipProps {
   line?: number; // 多少行文字溢出开始省略并气泡提示
@@ -35,19 +39,18 @@ const props = withDefaults(defineProps<TooltipProps>(), {
   try: 0,
 });
 
+let tryNumber = -1;
 const slots = useSlots() as any;
 let slotDom = slots.default();
 const slotRef = ref<HTMLElement | null>(null);
 const showTip = ref<boolean>(false);
 const content = ref<any>([]);
 const isFirstMounted = ref(false);
-
-let tryNumber = -1;
-
 const line = computed(() => props.line);
+
 const className = computed(() => {
-  if (props.line === 1) return "line sle";
-  else return "line line-clamp";
+  if (props.line === 1) return "sle";
+  else return "line-clamp";
 });
 
 const childrenIsArray = (arr: any, content: Array<string>) => {
@@ -58,7 +61,7 @@ const childrenIsArray = (arr: any, content: Array<string>) => {
 };
 
 const slotDomIsSingleElArray = (slotDom: any) => {
-  if (isArray(slotDom.children)) childrenIsArray(slotDom.children, content.value);
+  if (isArray(slotDom.children)) childrenIsArray(slotDom.children, unref(content));
   else content.value = [slotDom.children];
 };
 
@@ -72,56 +75,58 @@ const getContent = () => {
 
 const compareWidth = () => {
   // 如果已经溢出，则不需要处理
-  if (showTip.value) return;
+  if (unref(showTip)) return;
   if (!props.realTime) {
     if (tryNumber > props.try) return;
     tryNumber = tryNumber + 1;
   }
   content.value = [];
-  if (line.value === 1) {
-    const parentW = slotRef.value?.offsetWidth ?? 0;
+
+  if (unref(line) === 1) {
+    const parentW = unref(slotRef)?.offsetWidth ?? 0;
     if (parentW === 0) return;
-    const childW = (slotRef.value?.firstElementChild as any).offsetWidth ?? 0;
+    const childW = (unref(slotRef)?.firstElementChild as any).offsetWidth ?? 0;
     childW > parentW ? (showTip.value = true) : (showTip.value = false);
-    if (showTip.value) getContent();
+    if (unref(showTip)) getContent();
   } else {
     getContent();
-    // childW 为文本在页面中所占的宽度，创建标签，加入到页面，获取 parentW，最后在移除
+    // childW 为文本在页面中所占的宽度，创建 span 标签，加入到页面，获取不换行时的 span 标签 宽度，最后在移除 span 标签
     const tempTag = document.createElement("span");
-    tempTag.innerText = content.value.join("") ?? "";
+    tempTag.innerText = unref(content).join("") ?? "";
     tempTag.className = "tooltip-slot";
-    const bodyDom = document.querySelector(".line");
-    bodyDom && bodyDom.appendChild(tempTag);
-    const tooTipSlot = document.querySelector(".tooltip-slot");
-    const childW = (tooTipSlot as HTMLSpanElement).offsetWidth;
+    tempTag.style.whiteSpace = "nowrap";
+    slotRef.value?.appendChild(tempTag);
+    const tooTipSlot = slotRef.value?.querySelector(".tooltip-slot");
+    const childW = (tooTipSlot && (tooTipSlot as HTMLSpanElement).offsetWidth) || 0;
     tooTipSlot && tooTipSlot.remove();
-    const parentW = slotRef.value?.offsetWidth ?? 0;
+    const parentW = unref(slotRef)?.offsetWidth ?? 0;
     if (parentW === 0) return;
     // 当文本宽度大于容器宽度两倍时，代表文本显示超过两行
-    childW > line.value * parentW ? (showTip.value = true) : (showTip.value = false);
+    childW > parentW ? (showTip.value = true) : (showTip.value = false);
   }
 };
 
 onMounted(() => {
   isFirstMounted.value = true;
   compareWidth();
-  if (props.try > 0) slotRef.value?.addEventListener("mouseover", compareWidth);
-  else slotRef.value?.removeEventListener("mouseout", compareWidth);
+  if (props.try > 0) unref(slotRef)?.addEventListener("mouseover", compareWidth);
+  else unref(slotRef)?.removeEventListener("mouseout", compareWidth);
 });
 
 onUpdated(() => {
-  if (isFirstMounted.value) {
-    isFirstMounted.value = false;
-  } else {
+  if (unref(isFirstMounted)) isFirstMounted.value = false;
+  else {
     slotDom = slots.default();
     tryNumber = 0;
     compareWidth();
   }
 });
+
 onBeforeMount(() => {
-  slotRef.value?.removeEventListener("mouseout", compareWidth);
+  unref(slotRef)?.removeEventListener("mouseout", compareWidth);
 });
 </script>
+
 <style lang="scss" scoped>
 .line-clamp {
   display: -webkit-box;

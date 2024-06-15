@@ -16,18 +16,18 @@
     <el-form-item prop="verifyCode">
       <el-input clearable v-model="loginForm.verifyCode" placeholder="验证码" :prefix-icon="WarnTriangleFilled">
         <template #append>
-          <ImageVerify v-model:code="imgCode" />
+          <ImageVerifyCode v-model="imgCode" />
         </template>
       </el-input>
     </el-form-item>
     <el-form-item>
-      <div class="custom-item">
+      <div :class="`${prefixClass}__item`">
         <el-checkbox v-model="checked">记住密码</el-checkbox>
         <el-button link type="primary" @click="handleForgetPwd">忘记密码?</el-button>
       </div>
     </el-form-item>
     <el-form-item>
-      <div class="login-btn">
+      <div :class="`${prefixClass}__btn`">
         <el-button :icon="CircleClose" round @click="resetForm()" size="large">重置</el-button>
         <el-button :icon="UserFilled" round @click="startLogin()" size="large" type="primary" :loading="loading">
           登录
@@ -35,7 +35,7 @@
       </div>
     </el-form-item>
     <el-form-item>
-      <div class="custom-item">
+      <div :class="`${prefixClass}__item`">
         <el-button v-for="(item, index) in operates" :key="index" @click="switchFormMode(item.mode)" size="default">
           {{ item.title }}
         </el-button>
@@ -43,7 +43,7 @@
     </el-form-item>
     <el-form-item>
       <el-divider>第三方登录</el-divider>
-      <div class="third-item">
+      <div :class="`${prefixClass}__third--item`">
         <span v-for="(item, index) in thirdParty" :key="index" :title="item.title">
           <Icon :name="item.icon" width="20" height="20" />
         </span>
@@ -55,13 +55,17 @@
 <script setup lang="ts" name="LoginForm">
 import { useRouter } from "vue-router";
 import { ElNotification, type FormInstance } from "element-plus";
-import { useUserStore } from "@/stores/user";
+import { useUserStore } from "@/stores";
 import { getTimeState } from "@template/utils";
 import settings from "@/config/settings";
-import { ImageVerify } from "@template/components";
+import { ImageVerifyCode } from "@template/components";
 import { HOME_URL } from "@/router/routesConfig";
-import { useRoutes } from "@/hooks/useRoutes";
+import { useRoutes } from "@/hooks";
 import { User, Lock, WarnTriangleFilled, CircleClose, UserFilled } from "@element-plus/icons-vue";
+import { useDesign } from "@template/hooks";
+
+const { getPrefixClass } = useDesign();
+const prefixClass = getPrefixClass("login");
 
 interface LoginForm {
   username: string;

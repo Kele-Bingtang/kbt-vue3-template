@@ -1,11 +1,11 @@
-import { LayoutModeType, LayoutThemeType, TabsNavModeType, type LanguageType, type LayoutSizeType } from "@/stores";
 import {
-  settingCacheKey,
-  layoutCacheKey,
-  tabsNavCacheKey,
-  cacheDynamicRoutesKey,
-  versionCacheKey,
-} from "@template/constants";
+  LayoutModeType,
+  LayoutThemeType,
+  TabsNavModeType,
+  type LanguageType,
+  type LayoutSizeType,
+} from "@/stores/interface";
+import { TEMPLATE_PREFIX } from "@template/constants";
 
 interface Settings {
   title: string; // 项目 title
@@ -19,19 +19,21 @@ interface Settings {
   showBreadcrumbIcon: boolean; // 面包屑 Icon 是否显示
   showTabsNavIcon: boolean; // 标签栏 Icon 是否显示
   isCollapse: boolean; // 是否折叠菜单栏
+  menuAccordion: boolean; // 是否开启菜单手风琴
+  fixTabsNav: boolean; // 是否固定标签页
   isDark: boolean; // 是否开启暗色主题
   isWeak: boolean; // 是否开启灰色主题
   isGrey: boolean; // 是否开启色弱主题
   routeUseI18n: boolean; // 「路由」布局是否使用国际化，默认为 false，如果不使用，则需要在路由中给需要在菜单中展示的路由设置 meta: {title: 'xxx'} 用来在菜单中显示文字
   recordTabsNav: boolean; // 是否记录打开过（没关闭）的 tags，下次打开会加载在 tagsNav
-  menuWidth: string; // 菜单宽度
-  headerHeight: string; // 顶部高度
+  menuWidth: number; // 菜单宽度
+  headerHeight: number; // 顶部高度
   maximize: boolean; // MainContent 是否开启最大化，默认不开启（false）
   primaryTheme: string; // 主题色
   layoutTheme: LayoutThemeType; // 侧边菜单栏的主题色，暗色和亮色，默认为暗色
   errorLog: {
     showInHeader: boolean; // 设为 false 后不会在顶部显示错误日志徽标
-    env: string[]; // 日志收集的环境，默认是 production 生成环境
+    env: string[]; // 日志收集的环境，对应 .evn.xxx，如 development、test、production
   };
   /**
    * 白名单额三种模式：["*"]、["next"]、[to.path, ...]
@@ -50,8 +52,7 @@ interface Settings {
   moreRouteChildrenHideInMenuThenOnlyOne: boolean;
   layoutSize: LayoutSizeType;
   language: LanguageType;
-  settingCacheKey: string; // 缓存配置的 key
-  layoutCacheKey: string; // 缓存布局的 key
+  cacheKeyPrefix?: string; // 缓存 key 前缀
   tabsNavCacheKey: string; // 缓存标签页的 key
   versionCacheKey: string; // 缓存版本号的 key
   tabActiveExcludes: string[]; // 当 URL 携带 ? 的参数时，标签页的 path 也会携带参数，当 recordTabsNav 为 true 时，会造成多个重复的只是 ? 参数不一样的标签页，该选项指定当出现指定参数不会加载到 path，即该标签的 path 只保留 ? 前面的链接。当存在多个条件，满足任意一个即可
@@ -73,30 +74,33 @@ const themeSettings: Partial<Settings> = {
   showTabsNav: true,
   showLayoutLogo: true,
   showBreadcrumbIcon: true,
-  showTabsNavIcon: false,
-  recordTabsNav: true,
+  showTabsNavIcon: true,
+  recordTabsNav: false,
   isCollapse: false,
+  menuAccordion: false,
+  fixTabsNav: true,
   isDark: false,
   isWeak: false,
   isGrey: false,
   maximize: false,
   primaryTheme: "#168BF7", // 蓝色偏暗：#168BF7，官方：#409EFF
   layoutTheme: LayoutThemeType.Light,
-  menuWidth: "210px",
-  headerHeight: "55px",
+  menuWidth: 210,
+  headerHeight: 55,
 };
 
 const layoutSettings: Partial<Settings> = {
   showSettings: true,
   errorLog: {
     showInHeader: true,
-    env: ["production"],
+    env: [""],
   },
   moreRouteChildrenHideInMenuThenOnlyOne: false,
   tooltipEffect: "light",
   layoutSize: "default",
   language: "zh-CN",
   watchFrame: false,
+  cacheKeyPrefix: TEMPLATE_PREFIX,
 };
 
 const routerSettings: Partial<Settings> = {
@@ -109,11 +113,9 @@ const routerSettings: Partial<Settings> = {
 };
 
 const keySetting: Partial<Settings> = {
-  settingCacheKey,
-  layoutCacheKey,
-  tabsNavCacheKey,
-  cacheDynamicRoutesKey,
-  versionCacheKey,
+  tabsNavCacheKey: `${layoutSettings.cacheKeyPrefix}_tabsNav`,
+  cacheDynamicRoutesKey: `${layoutSettings.cacheKeyPrefix}_dynamic_routes`,
+  versionCacheKey: `${layoutSettings.cacheKeyPrefix}_version`,
   tabActiveExcludes: ["layoutMode"],
 };
 

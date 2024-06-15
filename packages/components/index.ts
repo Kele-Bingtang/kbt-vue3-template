@@ -1,4 +1,4 @@
 export * from "./icon";
-export * from "./imageVerify";
+export * from "./imageVerifyCode";
 export * from "./pagination";
 export * from "./tooltip";

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "all hooks are settled here",
   "dependencies": {
-    "vue": "^3.3.10",
-    "@vueuse/core": "10.7.1"
+    "vue": "^3.4.27",
+    "@vueuse/core": "^10.9.0"
   }
 }

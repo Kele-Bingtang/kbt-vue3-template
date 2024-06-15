@@ -1,7 +1,7 @@
 import router from "@/router";
-import { useUserStore } from "@/stores/user";
-import { isIncludeAll, isIncludeSome } from "@template/utils";
-import { isString } from "@template/utils";
+import { useUserStore } from "@/stores";
+import { isIncludeAll, isIncludeSome, isString } from "@template/utils";
+import { useRoute } from "vue-router";
 
 export const usePermission = () => {
   const userStore = useUserStore();

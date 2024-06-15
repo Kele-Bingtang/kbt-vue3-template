@@ -1,20 +1,19 @@
-import { DeviceType } from "@/stores";
-import { useLayoutStore } from "@/stores/layout";
-import { usePermissionStore } from "@/stores/permission";
+import { useLayoutStore, usePermissionStore, useSettingsStore, useUserStore, DeviceType } from "@/stores";
 import { ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
 import settings from "@/config/settings";
-import { useSettingsStore } from "@/stores/settings";
-import { useUserStore } from "@/stores/user";
 import { transformI18n } from "@template/i18n";
 import { isFunction, isString } from "@template/utils";
 import { useRoutes } from "./useRoutes";
+import type { RouteLocationNormalizedLoaded } from "vue-router";
+
 export const useLayout = () => {
   const layoutStore = useLayoutStore();
   const settingsStore = useSettingsStore();
   const userStore = useUserStore();
   const { homeRoute, loadedRouteList } = usePermissionStore();
   const { t } = useI18n();
+
   /**
    * @description 是否为移动端
    * @returns boolean：true 是，false 不是
@@ -23,6 +22,7 @@ export const useLayout = () => {
     const rect = document.body.getBoundingClientRect();
     return rect.width - 1 < 767; // 这里以 ipad Mini 的宽度为移动端的阈值
   };
+
   /**
    * @description 计算页面尺寸
    */
@@ -33,15 +33,18 @@ export const useLayout = () => {
       if (result) settingsStore.closeSideMenu();
     }
   };
+
   /**
    * @description 根据当前跳转的路由设置显示在浏览器标签的 title
    * @param route 当前路由
    */
-  const setBrowserTitle = (route: RouteConfig) => {
+  const setBrowserTitle = (route: RouteLocationNormalizedLoaded) => {
     const { title } = settings;
     const pageTitle = getTitle(route);
+
     let resTitle = pageTitle ? `${title} - ${pageTitle}` : title; // 默认标题的模式
     const { titleMode } = settingsStore;
+
     // 展示标题的多种模式判断
     if (titleMode === "0") resTitle = pageTitle ? `${title} - ${pageTitle}` : title;
     else if (titleMode === "1") {
@@ -53,32 +56,35 @@ export const useLayout = () => {
     else if (titleMode === "3") resTitle = pageTitle + "";
     window.document.title = resTitle;
   };
+
   /**
    * @description 获取页面标题、侧边菜单、面包屑、tabsNav 展示的 title
    * @param route 当前路由
    * @param start 是否从头开始解析出 title，因为路由在编译阶段已经解析了一部分，所以涉及路由里的配置不需要从头开始解析，具体看 ./useRoutes.ts 的 processRouteMeta 函数
    * @returns 路由的 title
    */
-  const getTitle = (route: RouteConfig | RouterConfig, start = false) => {
-    if (start) return getLayoutTitle(route as RouteConfig);
+  const getTitle = (route: RouteLocationNormalizedLoaded | RouterConfigRaw, start = false) => {
+    if (start) return getLayoutTitle(route);
     // 虽然 handleFunctionTitle 函数内部会对 title 是否是函数进行判断，但是因为 title 是函数的场景相比较小，所以这里先判断，减少往下执行的性能消耗
-    if (route.meta.title && !isFunction(route.meta.title)) return route.meta.title + "";
-    const { title, titleIsFunction } = handleFunctionTitle(route as RouteConfig);
+    if (route.meta?.title && !isFunction(route.meta.title)) return route.meta.title + "";
+    const { title, titleIsFunction } = handleFunctionTitle(route);
     if (titleIsFunction) return handleI18nTitle(route.name as string | undefined, title, true, route.meta?.useI18n);
     return title;
   };
+
   /**
    * @description 完整获取页面标题、侧边菜单、面包屑、tabsNav 展示的 title
    * @param route 当前路由
    * @returns 路由的 title
    */
-  const getLayoutTitle = (route: RouteConfig) => {
+  const getLayoutTitle = (route: RouteLocationNormalizedLoaded | RouterConfigRaw) => {
     const name = route.name as string | undefined;
     if (!route.meta?.title && !route.meta?.useI18n) return name || "no-name";
     const { title, titleIsFunction } = handleFunctionTitle(route);
     const t = title || name || "no-name";
     return handleI18nTitle(name, t, titleIsFunction, route.meta?.useI18n);
   };
+
   /**
    * @description 获取 i18n 转换后的文字
    * @param name 路由的 name
@@ -99,22 +105,26 @@ export const useLayout = () => {
     if (!titleIsFunction && name) return t(`_route.${name}`) === `_route.${name}` ? name : t(`_route.${name}`);
     return title;
   };
+
   /**
    * @description 处理路由的 title，因为 title 支持函数格式，所以这里解析出函数的返回值
    * @param route 当前路由
    * @returns
    */
-  function handleFunctionTitle(route: RouteConfig) {
-    const meta = { ...route.meta }; // 取消 meta 响应式
+  function handleFunctionTitle(route: RouteLocationNormalizedLoaded | RouterConfigRaw) {
+    const meta = { ...(route.meta as MetaProp) }; // 取消 meta 响应式
     const title = meta?.title || "";
-    if (title && isFunction(title)) return { title: title({ ...route }), titleIsFunction: true };
+    if (title && isFunction(title)) {
+      return { title: title({ ...route } as RouteLocationNormalizedLoaded), titleIsFunction: true };
+    }
     return { title: title + "", titleIsFunction: false };
   }
+
   /**
    * @description 获取面包屑列表
    * @returns 面包屑列表
    */
-  const getBreadcrumbs = (route: RouteConfig): RouteConfig[] => {
+  const getBreadcrumbs = (route: RouteLocationNormalizedLoaded): RouteLocationNormalizedLoaded[] => {
     // 首页不存在
     if (!homeRoute?.path || !homeRoute?.name) {
       ElMessage({
@@ -124,16 +134,24 @@ export const useLayout = () => {
       });
       return [];
     }
+
     // 如果是首页，直接返回
-    if (route.path === homeRoute?.path || route.name === homeRoute?.name) return [homeRoute] as RouteConfig[];
+    if (route.path === homeRoute?.path || route.name === homeRoute?.name) {
+      return [homeRoute] as RouteLocationNormalizedLoaded[];
+    }
     // 当前路由的父级路由组成的数组
-    let matched = useRoutes().findParentRoutesByPath(route.meta._fullPath, loadedRouteList) as RouteConfig[];
-    matched.push(toRaw(route));
+    let matched = useRoutes().findParentRoutesByPath(
+      route.meta._fullPath,
+      loadedRouteList
+    ) as RouteLocationNormalizedLoaded[];
+    route.meta.title = getTitle(route);
+    matched.push(route);
     // 首页加上其他页面
-    matched = [homeRoute as RouteConfig, ...matched];
+    matched = [homeRoute as RouteLocationNormalizedLoaded, ...matched];
     // 过滤掉 hideInBread 的配置
     return matched.filter(item => (item.name || item.meta?.title) && !item.meta?.hideInBread);
   };
+
   /**
    * @description 通过路由表获取菜单列表
    * @param loadRolesRoutes 权限路由
@@ -166,6 +184,7 @@ export const useLayout = () => {
     getMenuListByRouter,
   };
 };
+
 /**
  * 非 setup 使用
  */
@@ -175,14 +194,15 @@ export const useLayoutNoSetup = () => {
    * @param route 当前路由
    * @returns 路由的 title
    */
-  const getLayoutTitle = (route: RouteConfig) => {
+  const getLayoutTitle = (route: RouteLocationNormalizedLoaded | RouterConfigRaw) => {
     // 不处理为函数的 title
-    if (isFunction(route.meta.title)) return route.meta.title;
+    if (isFunction(route.meta?.title)) return route.meta.title;
     const name = route.name as string | undefined;
     if (!route.meta?.title && !route.meta?.useI18n) return name || "no-name";
     const title = route.meta?.title || name || "no-name";
     return handleI18nTitle(name, title + "", route.meta?.useI18n);
   };
+
   /**
    * @description 获取 i18n 转换后的文字
    * @param name 路由的 name
@@ -205,6 +225,7 @@ export const useLayoutNoSetup = () => {
     }
     return title;
   };
+
   return {
     getLayoutTitle,
     handleI18nTitle,

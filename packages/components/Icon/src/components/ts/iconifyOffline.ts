@@ -1,4 +1,5 @@
 import { Icon as IconifyIcon, addIcon, type IconifyIcon as IconifyIconInterface } from "@iconify/vue/dist/offline";
+import { defineComponent, h } from "vue";
 
 // Iconify Icon 在 Vue 里本地使用（用于内网环境）https://docs.iconify.design/icon-components/vue/offline.html
 export default defineComponent({

@@ -38,7 +38,7 @@ export const configCompressPlugin = (compress: ViteCompression): Plugin | Plugin
   codeList.forEach((item: any) => {
     if (compress.includes(item.k)) {
       if (compress.includes("clear")) {
-        if (isArray(item.v)) {
+        if (Array.isArray(item.v)) {
           item.v.forEach((vItem: any) => {
             plugins.push(compressPlugin(Object.assign(vItem, { deleteOriginFile: true })));
           });
@@ -46,7 +46,7 @@ export const configCompressPlugin = (compress: ViteCompression): Plugin | Plugin
           plugins.push(compressPlugin(Object.assign(item.v, { deleteOriginFile: true })));
         }
       } else {
-        if (isArray(item.v)) {
+        if (Array.isArray(item.v)) {
           item.v.forEach((vItem: any) => {
             plugins.push(compressPlugin(vItem));
           });
@@ -58,11 +58,4 @@ export const configCompressPlugin = (compress: ViteCompression): Plugin | Plugin
   });
 
   return plugins;
-};
-
-const isArray = (arg: any) => {
-  if (typeof Array.isArray === "undefined") {
-    return Object.prototype.toString.call(arg) === "[object Array]";
-  }
-  return Array.isArray(arg);
 };

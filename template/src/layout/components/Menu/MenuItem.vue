@@ -5,7 +5,7 @@
     v-if="!menuItem.children || menuItem.children.length == 0"
     class="menu-item"
   >
-    <CommonIcon v-if="menuItem.meta.icon" :icon="menuItem.meta.icon" />
+    <Icon v-if="menuItem.meta.icon" :icon="menuItem.meta.icon" class="menu-icon" />
     <template #title>
       <span v-if="!menuItem.meta.useTooltip">{{ title(menuItem) }}</span>
       <Tooltip v-else :effect="settings.tooltipEffect" :offset="-10" :try="1">
@@ -13,9 +13,9 @@
       </Tooltip>
     </template>
   </el-menu-item>
-  <el-sub-menu v-else :index="menuItem.meta._fullPath" class="sub-menu">
+  <el-sub-menu v-else :index="menuItem.meta._fullPath || menuItem.path" class="sub-menu">
     <template #title>
-      <CommonIcon v-if="menuItem.meta.icon" :icon="menuItem.meta.icon" />
+      <Icon v-if="menuItem.meta.icon" :icon="menuItem.meta.icon" class="menu-icon" />
       <span v-if="!menuItem.meta.useTooltip">{{ title(menuItem) }}</span>
       <Tooltip v-else :effect="settings.tooltipEffect" :offset="-10" :try="1">
         <span>{{ title(menuItem) }}</span>
@@ -28,12 +28,14 @@
 </template>
 
 <script setup lang="ts" name="MenuItem">
-import { useLayout } from "@/hooks/useLayout";
+import { ref, watch, nextTick } from "vue";
+import { ElMenuItem, ElSubMenu } from "element-plus";
+import { useLayout } from "@/hooks";
 import { isExternal } from "@template/utils";
-import CommonIcon from "@/layout/components/CommonIcon/index.vue";
 import { Tooltip } from "@template/components";
 import settings from "@/config/settings";
-import { useLayoutStore } from "@/stores/layout";
+import { useLayoutStore } from "@/stores";
+import { useRouter } from "vue-router";
 
 defineProps<{
   menuItem: RouterConfig;
@@ -47,7 +49,7 @@ const isSwitchLanguage = ref(false);
 
 const handleMenuClick = (menuItem: RouterConfig) => {
   if (isExternal(menuItem.path)) return window.open(menuItem.path, "_blank");
-  router.push(menuItem.meta._fullPath);
+  router.push(menuItem.meta._fullPath || menuItem.path || "");
 };
 
 const title = (menuItem: RouterConfig) => {
@@ -70,14 +72,13 @@ watch(
 <style lang="scss" scoped>
 .menu-item,
 .sub-menu {
-  user-select: none;
-
-  :deep(.svg-icon) {
-    width: 1.5rem !important;
-    width: var(--el-menu-icon-width) !important;
+  .menu-icon {
+    width: var(--#{$el-namespace}-menu-icon-width) !important;
     margin-right: 5px;
     overflow: visible;
+    font-size: 18px;
     text-align: center;
+    vertical-align: middle;
   }
 }
 </style>

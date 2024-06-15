@@ -1,7 +1,6 @@
 import type { IconType } from "./iconType";
 import { IconifyOnline, IconifyOffline, FontIcon } from "../index";
-import type { IconifyIcon } from "@iconify/vue/dist/offline";
-import { Component, defineComponent, h } from "vue";
+import type { IconifyIcon } from "@iconify/vue";
 
 /**
  * 支持 `iconfont`、自定义 `svg` 以及 `iconify` 中所有的图标
@@ -9,7 +8,7 @@ import { Component, defineComponent, h } from "vue";
  * @param attrs 可选 IconType 属性
  * @returns Component
  */
-export function useIcon(icon: string | IconifyIcon, attrs?: IconType): Component {
+export const useIcon = (icon: string | IconifyIcon, attrs?: IconType): Component => {
   const ifReg = /^IF-/;
   const svgReg = /^SVG-/;
 
@@ -81,4 +80,4 @@ export function useIcon(icon: string | IconifyIcon, attrs?: IconType): Component
       },
     });
   }
-}
+};

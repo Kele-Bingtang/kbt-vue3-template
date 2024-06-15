@@ -1,5 +1,5 @@
 <template>
-  <transition
+  <Transition
     appear
     :name="name"
     :enterActiveClass="enterActiveClass"
@@ -7,10 +7,13 @@
     mode="out-in"
   >
     <slot></slot>
-  </transition>
+  </Transition>
 </template>
 
 <script setup lang="ts" name="CustomTransition">
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
 const route = useRoute();
 
 const name = computed(() => {
@@ -22,11 +25,11 @@ const name = computed(() => {
 const enterActiveClass = computed(() => {
   const transition = route.meta.transition;
   if (transition) return `animate__animated ${transition.enterTransition}`;
+  return "";
 });
 const leaveActiveClass = computed(() => {
   const transition = route.meta.transition;
   if (transition) return `animate__animated ${transition.leaveTransition}`;
+  return "";
 });
 </script>
-
-<style lang="scss" scoped></style>

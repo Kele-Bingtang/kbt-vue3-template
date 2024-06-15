@@ -6,10 +6,11 @@
   ></IconifyIcon>
 </template>
 
-<script setup lang="ts" name="IconifyOffline">
-import { onMounted } from "vue";
+<script setup lang="ts">
 import { Icon as IconifyIcon, addIcon, type IconifyIcon as IconifyIconInterface } from "@iconify/vue/dist/offline";
-import type { CSSProperties } from "vue";
+import { onMounted, type CSSProperties } from "vue";
+
+defineOptions({ name: "IconifyOffline" });
 
 interface IconifyOfflineProps {
   icon: Object | string | IconifyIconInterface;

@@ -1,12 +1,12 @@
 <template>
-  <div :class="{ hidden: hidden }" class="pagination-component">
+  <div :class="[prefixClass, { hidden: hidden }]" class="pagination-component">
     <el-pagination
       :background="background"
-      v-model:current-page="pageObj.currentPage"
+      v-model:current-page="pageObj.pageNum"
       v-model:page-size="pageObj.pageSize"
       :page-sizes="pageObj.pageSizes"
       :layout="layout"
-      :total="total"
+      :total="modelValue.total"
       v-bind="$attrs"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -15,31 +15,37 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRef, nextTick } from "vue";
 import { scrollTo } from "@template/utils";
+import { nextTick, unref } from "vue";
+import { ElPagination } from "element-plus";
 
-export const pageSetting = { currentPage: 1, pageSizes: [10, 20, 50, 100, 200], pageSize: 20 };
+export const pageSetting = { pageNum: 1, pageSizes: [10, 20, 50, 100, 200], pageSize: 20 };
 </script>
 
-<script setup lang="ts" name="Pagination">
+<script setup lang="ts">
+import { useDesign } from "@template/hooks";
+
 export interface Paging {
-  currentPage: number; // 当前页
-  pageSizes: number[]; // 页数数组
+  pageNum: number; // 当前页
+  pageSizes?: number[]; // 页数数组
   pageSize: number; // 一页显示多少条数据
+  total?: number; // 总数
 }
 
 export interface PaginationProps {
-  total: number; // 总页数
-  modelValue?: Paging; // 分页信息
   layout?: string; // 布局
   background?: boolean; // 是否开启背景色
   autoScroll?: boolean; // 切换页数，是否自动滚动到最上面
   hidden?: boolean; // 是否不显示分页
-  reset?: boolean; // 切换 pageSize，currentPage 重置为 1
+  reset?: boolean; // 切换 pageSize，pageNum 重置为 1
 }
 
+defineOptions({ name: "Pagination" });
+
+const { getPrefixClass, variables } = useDesign();
+const prefixClass = getPrefixClass("pagination");
+
 const props = withDefaults(defineProps<PaginationProps>(), {
-  modelValue: () => reactive(pageSetting),
   layout: "total, sizes, prev, pager, next, jumper",
   background: true,
   autoScroll: true,
@@ -47,50 +53,52 @@ const props = withDefaults(defineProps<PaginationProps>(), {
   reset: true,
 });
 
-type PaginationEmitProps = { (e: "update:modelValue", value: Paging): void; (e: "pagination", value: Paging): void };
+type PaginationEmits = {
+  pagination: [value: Paging];
+};
 
-const emits = defineEmits<PaginationEmitProps>();
+const emits = defineEmits<PaginationEmits>();
 
-const pageObj = toRef(props, "modelValue");
+const pageObj = defineModel<Paging>({ required: true });
+
+if (!unref(pageObj).pageNum) pageObj.value.pageNum = pageSetting.pageNum;
+if (!unref(pageObj).pageSizes) pageObj.value.pageSizes = pageSetting.pageSizes;
+if (!unref(pageObj).pageSize) pageObj.value.pageSize = pageSetting.pageSize;
 
 const handleSizeChange = (value: number) => {
   if (props.reset) handleCurrentChange(1);
-
   pageObj.value.pageSize = value;
-  emits("update:modelValue", pageObj.value);
-  emits("pagination", props.modelValue);
-  nextTick(() => {
-    if (props.autoScroll) {
-      scrollTo("el-table__body-wrapper", 0, 700);
-      scrollTo("el-main", 0, 700);
-    }
-  });
+  afterChange();
 };
 
 const handleCurrentChange = (value: number) => {
-  pageObj.value.currentPage = value;
+  pageObj.value.pageNum = value;
+  afterChange();
+};
 
-  emits("update:modelValue", pageObj.value);
-  emits("pagination", props.modelValue);
-
-  nextTick(() => {
-    if (props.autoScroll) {
-      scrollTo("el-table__body-wrapper", 0, 700);
-      scrollTo("el-main", 0, 700);
-    }
-  });
+const afterChange = () => {
+  pageObj.value = unref(pageObj);
+  emits("pagination", unref(pageObj));
+  if (props.autoScroll) {
+    nextTick(() => {
+      scrollTo(`${variables.elNamespace}-table__body-wrapper`, 0, 700);
+      scrollTo(`${variables.elNamespace}-main`, 0, 700);
+    });
+  }
 };
 
 defineExpose({ paging: pageSetting });
 </script>
 
 <style lang="scss" scoped>
-.pagination-component {
-  padding: 32px 16px;
-  background: #ffffff;
-}
+$prefix-class: #{$admin-namespace}-pagination;
 
-.pagination-component.hidden {
-  display: none;
+.#{$prefix-class} {
+  padding: 15px 2px 0;
+  background: #ffffff;
+
+  &.hidden {
+    display: none;
+  }
 }
 </style>

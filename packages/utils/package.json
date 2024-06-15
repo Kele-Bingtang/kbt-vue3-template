@@ -3,12 +3,14 @@
   "version": "0.0.1",
   "description": "all utils are settled here",
   "dependencies": {
-    "vue": "^3.3.10",
-    "element-plus": "^2.5.1",
+    "element-plus": "^2.7.3",
+    "file-saver": "^2.0.5",
     "mitt": "^3.0.1",
-    "nprogress": "^0.2.0"
+    "nprogress": "^0.2.0",
+    "vue": "^3.4.27",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/nprogress": "0.2.0"
+    "@types/nprogress": "0.2.3"
   }
 }

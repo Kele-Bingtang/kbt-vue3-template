@@ -1,18 +1,8 @@
-# kbt-vue3-template
+# KBT Vue3 Admin
 
-基于 Vue3.2、TypeScript、Vite4、Pinia、Element-Plus 搭建的 Admin Template 模板。
+基于 Vue3.4、TypeScript5、Vite5、Pinia2、Element-Plus2.7 搭建的 Admin Template 模板。
 
-这是纯净版，只有项目框架必要的信息。完整版请看 [kbt-vue3-admin](https://github.com/Kele-Bingtang/kbt-vue3-admin)。
-
-master 支持国际化，如果你不需要国际化，则看本仓库的另一个分支：[no-i18n](https://github.com/Kele-Bingtang/kbt-vue3-template/tree/no-i18n)。
-
-克隆项目下来后，记得切换 GitLab 地址，修改为您真正的项目地址。
-
-如果您暂时不确定您当前开发的项目地址，可以先把根目录下的 .git 文件删除，因为 .git 目录在 Windows 是隐藏的，所以您可以有两个步骤来删除它：
-
-- 使用 Windows 10 资源管理器进入到项目根目录，右上角「查看」 -> 「隐藏的项目」打勾，即可看到隐藏的项目，即 .git，然后右键删除即可
-- 使用 Windows 10 资源管理器进入到项目根目录，按住 `Shift`，然后鼠标在空白处右键，选择「在处处打开 Powershell 窗口」，执行命令 `rm -r -force .git` 即可删除
-- 利用 Git Bash Here 窗口进入项目根目录，执行命令 `rm -rf .git` 即可删除
+这是完整版，有完整的使用实例代码。纯净版请看 [kbt-vue3-template](https://github.com/Kele-Bingtang/kbt-vue3-template)。
 
 ## 必须操作
 
@@ -20,11 +10,9 @@ Admin 项目用到的 key 暂时只有缓存功能，如个性化配置、布局
 
 您需注意的是：Admin 使用的缓存 key 是一个确定的值，通过该 key 读取缓存内容，这样导致读取到其他用到 Admin 项目的缓存内容。
 
-所以您需要给您开发的项目一个独立的缓存 key，请前往 `src/config/settings.ts` 下，找到 `settingCacheKey` 、`layoutCacheKey`、`tabsNavCacheKey`，修改对应的值，最好以 Admin 名来确保唯一性。
+所以您需要给您开发的项目一个独立的缓存 key，请前往 `src/config/settings.ts` 下，找到 `cacheKeyPrefix`，修改对应的值，最好以项目名来确保唯一性。
 
-如：Admin 使用的 key 默认前缀是 `kbt_`，如果您的项目叫做 MIT，则将 `kbt_` 改为 `mit_` 即可。
-
-注意：tokenKey 不需要修改，因为 token 是所有 Admin 的访问凭证。如果您修改了 tokenKey，则无法利用该 token 访问其他项目。
+如：Admin 使用的 key 默认前缀是 `kbt`，如果您的项目叫做 MIT，则将 `kbt` 改为 `mit` 即可。
 
 ## 使用文档
 
@@ -45,50 +33,55 @@ git clone https://github.com/Kele-Bingtang/kbt-vue3-admin
 Project setup：安装依赖
 
 ```sh
-yarn install
+pnpm install
 ```
 
 Compiles and hot-reloads for development：编译运行（开发环境使用）
 
 ```sh
-yarn dev
+pnpm dev
 # or
-yarn server
+pnpm server
 ```
 
 Compiles and minifies for production：打包运行（测试环境使用）
 
 ```sh
-yarn build:test
+pnpm build:test
 ```
 
 Compiles and minifies for production：打包运行（生产环境使用）
 
 ```sh
-yarn build:pro
+pnpm build
+# or
+pnpm build:prod
 ```
 
 Lints and fixes files：检查和修复文件
 
 ```sh
-yarn lint
+pnpm lint
 ```
 
 Push code：提交代码到 git
 
-前往 push.sh 文件修改要提交的远程仓库地址，然后在 Git Bash Here 执行命令：
-
 ```sh
-sh push.sh "您的 commit 信息"
+# 提交代码到本地仓库
+pnpm cz
+
+# 提交代码到本地 && 推送远程仓库
+pnpm czp
 ```
 
 ## 文件资源目录 📚
 
 ```text
-Vue3-Admin-Ts
+Kbt-Vue3-Admin
 ├─ .husky                 # git commit 钩子
 ├─ .vscode                # VSCode 推荐配置
-├─ public                 # 静态资源文件（该文件夹不会被打包）
+├─ build                  # Vite 构建配置
+├─ public                 # 静态资源文件
 ├─ src
 │  ├─ api                 # API 接口管理
 │  ├─ assets              # 静态资源文件
@@ -100,37 +93,38 @@ Vue3-Admin-Ts
 │  ├─ languages           # 语言国际化 i18n
 │  ├─ layouts             # 框架布局模块
 │  ├─ routers             # 路由管理
-│  ├─ stores              # pinia store
+│  ├─ stores              # pinia stores
 │  ├─ styles              # 全局样式文件
-│  ├─ typings             # 全局 ts 声明
+│  ├─ types               # 项目 TS 声明
 │  ├─ utils               # 常用工具库
 │  ├─ views               # 项目所有页面
 │  ├─ App.vue             # 项目主组件
-│  ├─ env.d.ts            # 指定 ts 识别 vue
 │  └─ main.ts             # 项目入口文件
+├─ types          			  # 全局 TS 声明
 ├─ .editorconfig          # 统一不同编辑器的编码风格
-├─ .env                   # vite 常用配置
+├─ .env                   # vite 基础环境配置
 ├─ .env.development       # 开发环境配置
 ├─ .env.production        # 生产环境配置
 ├─ .env.test              # 测试环境配置
 ├─ .eslintignore          # 忽略 Eslint 校验
+├─ .eslintrc-globals.json # Eslint 忽略关键词校验
 ├─ .eslintrc.js           # Eslint 校验配置文件
-├─ .gitignore             # 忽略 git 提交
+├─ .gitignore             # 忽略 Git 提交
 ├─ .prettierignore        # 忽略 Prettier 格式化
-├─ .prettierrc.js         # Prettier 格式化配置
+├─ .prettierrc.json       # Prettier 格式化配置
 ├─ .stylelintignore       # 忽略 stylelint 格式化
 ├─ .stylelintrc.js        # stylelint 样式格式化配置
+├─ .versionrc        	    # Standard Version 配置文件
 ├─ CHANGELOG.md           # 项目更新日志
-├─ commitlint.config.js   # git 提交规范配置
+├─ commitlint.config.js   # Git 提交规范配置
 ├─ index.html             # 入口 html
 ├─ LICENSE                # 开源协议文件
 ├─ package-lock.json      # 依赖包包版本锁
 ├─ package.json           # 依赖包管理
 ├─ postcss.config.js      # postcss 配置
-├─ README.md              # README 介绍
-├─ STANDARD.md            # 项目编码规范说明书
+├─ README.md              # README 介绍文档
 ├─ tsconfig.json          # typescript 全局配置
-└─ vite.config.ts         # vite 全局配置文件
+└─ vite.config.mts        # vite 全局配置文件
 ```
 
 ## 内容说明
@@ -141,7 +135,7 @@ Admin 的布局组件有顶栏、面包屑、侧边菜单栏、标签栏、内�
 
 内容区（MainContent）根据路由进行组件的跳转，可视化页面的组件在 `src/views` 下。
 
-布局支持 4 种形式，所以使用了 `<compoment is=""></component>` 内置组件来动态切换，具体请看 `src/layout/index.vue` 内容。
+布局支持 6 种形式，所以使用了 `<compoment is=""></component>` 内置组件来动态切换，具体请看 `src/layout/index.vue` 内容。
 
 标签栏支持两种形式，一种是保留了 Vue2 Admin 的经典版，另一种是使用了 Element Plus 提供的 `el-tabs` 组件。也采用了 components 内置组件来动态切换，具体请看 `layout/components/TabsNav` 内容。
 
@@ -167,11 +161,9 @@ Admin 对 axios 进行了一些处理，可以在 params 下添加了一个关�
 - `file`：请求头为 `application/form-data`
 - `json`：请求头为 `application/json`
 - `info`：请求头为 `multipart/form-data`
-- `multi`：代表发送的参数有数组，会自动处理成 `key=value&key=value 形式
+- `multi`：代表发送的参数有数组，会自动处理成 `key=value&key=value` 形式
 
 如果你不填写 `_type`，则默认是 json。
-
-可以看 `src/api` 下的例子。
 
 #### header/loading（boolean）
 
@@ -212,7 +204,7 @@ export const api = () => {
 当开启 mapping 后，打开 `src/config/request.ts` 文件，然后在 mappingUrl 变量里添加一个键值对：
 
 ```typescript
-const mappingUrl: { [key: string]: string } = {
+const mappingUrl: Record<string, string> = {
   default: import.meta.env.VITE_API_URL,
   test: "https://youngkbt.cn",
 };
@@ -258,25 +250,38 @@ Admin 模板需要的可配置参数:
 
 ```typeScript
 /**
- * path ==> 路由的地址，这是必须设置的，如果是个有效的 http 或者 https 链接，则点击该菜单跳转到新窗口
- * name ==> 路由的名字，这是必须设置的，如果开启了 I18n，某些路由又不想使用 I18n，则 name 以 _noUseI18n- 开头
- * redirect ==> 重定向到某个路由下，可选，function 使用方式请看官网：https://router.vuejs.org/zh/api/index.html#redirect
- * component ==> 视图文件路径
- * meta ==> 菜单信息
- * meta.roles ==> 可访问该页面的权限数组，当前路由设置的权限会影响子路由
- * meta.title ==> 显示在侧边栏、面包屑和标签栏的文字，使用 '{{ 多语言字段 }}' 形式结合「多语言」使用，可以传入一个回调函数，参数是当前路由对象 to
- * meta.icon ==> 菜单图标，该页面在左侧菜单、面包屑显示的图标，无默认值，如果是数组形式（仅支持三个下标），则对应 [icon, width, height]
- * meta.notClickBread ==> 是否允许点击面包屑，如果为 true，则该路由无法在面包屑中被点击，默认为 false
- * meta.hideInBread ==> 是否隐藏面包屑，如果为 true，则该路由将不会出现在面包屑中，默认为 false
- * meta.hideInMenu ==> 是否隐藏菜单，如果为 true，则该路由不会显示在左侧菜单，默认为 false
- * meta.alwaysShowRoot ==> 是否总是渲染为菜单，如果为 false 且某一级路由下只有一个二级路由，则左侧菜单直接显示该二级路由，如果为 true，则总会让一级菜单作为下拉菜单，默认为 false，仅限父级路由使用
- * meta.isKeepAlive ==> 是否缓存，如果为 true，该路由在切换标签后不会缓存，如果需要缓存，则「必须」设置页面组件 name 属性（class 名）和路由配置的 name 一致，默认为 false
- * meta.isAffix ==> 是否固定在 tabs nav，如果为 true，则该路由按照路由表顺序依次标签固定在标签栏，默认为 false
- * meta.isFull ==> 是否全屏，不渲染 Layout 布局，只渲染当前路由组件
- * meta.activeMenu ==> Restful 路由搭配使用，当前路由为详情页时，需要高亮的菜单
- * meta.beforeCloseName ==> 关闭路由前的回调，如果设置该字段，则在关闭当前 tab 页时会去 @/router/before-close.js 里寻找该字段名「对应」的方法，作为关闭前的钩子函数，无默认值
- * meta.rank ==> 路由在左侧菜单的排序，rank 值越高越靠后，当 rank 不存在时，根据顺序自动创建，首页路由永远在第一位，当 rank 存在时，可以插入指定的菜单位置，默认不存在
- * meta.frameSrc ==> IFrame 链接，填写后该路由将打开 IFrame 指定的链接
+ * @description 动态路由参数配置简介 📚
+ * @param path ==> 路由的地址，这是必须设置的，如果是个有效的 http 或者 https 链接，则点击该菜单跳转到新窗口
+ * @param name ==> 路由的名字，这是必须设置的，如果开启了 I18n，某些路由又不想使用 I18n，则 name 以 _noUseI18n- 开头
+ * @param redirect ==> 重定向到某个路由下，可选，function 使用方式请看官网：https://router.vuejs.org/zh/api/index.html#redirect
+ * @param component ==> 视图文件路径
+ * @param meta ==> 菜单信息
+ * @param meta.roles ==> 可访问该页面的权限数组，当前路由设置的权限会影响子路由
+ * @param meta.auths ==> 路由内的按钮权限
+ * @param meta.title ==> 显示在侧边栏、面包屑和标签栏的文字，使用 '{{ 多语言字段 }}' 形式结合「多语言」使用，可以传入一个回调函数，参数是当前路由对象 to
+ * @param meta.icon ==> 菜单图标，该页面在左侧菜单、面包屑显示的图标，无默认值
+ * @param meta.notClickBread ==> 是否允许点击面包屑，如果为 true，则该路由无法在面包屑中被点击，默认为 false
+ * @param meta.hideInBread ==> 是否不添加到面包屑，如果为 true，则该路由将不会出现在面包屑中，默认为 false
+ * @param meta.hideInMenu ==> 是否不添加到菜单，如果为 true，则该路由不会显示在左侧菜单，默认为 false
+ * @param meta.alwaysShowRoot ==> 是否总是渲染为菜单，如果为 false 且某一级路由下只有一个二级路由，则左侧菜单直接显示该二级路由，如果为 true，则总会让一级菜单作为下拉菜单，默认为 false，仅限父级路由使用
+ * @param meta.isKeepAlive ==> 是否缓存，如果为 true，该路由在切换标签后不会缓存，如果需要缓存，则「必须」设置页面组件 name 属性（class 名）和路由配置的 name 一致，默认为 false
+ * @param meta.isAffix ==> 是否固定在 tabs nav，如果为 true，则该路由按照路由表顺序依次标签固定在标签栏，默认为 false
+ * @param meta.isFull ==> 是否全屏，不渲染 Layout 布局，只渲染当前路由组件
+ * @param meta.activeMenu ==> Restful 路由搭配使用，当前路由为详情页时，需要高亮的菜单
+ * @param meta.beforeCloseName ==> 关闭路由前的回调，如果设置该字段，则在关闭当前 tab 页时会去 @/router/before-close.js 里寻找该字段名「对应」的方法，作为关闭前的钩子函数，无默认值
+ * @param meta.rank ==> 路由在左侧菜单的排序，rank 值越高越靠后，当 rank 不存在时，根据顺序自动创建，首页路由永远在第一位，当 rank 存在时，可以插入指定的菜单位置，默认不存在
+ * @param meta.frameSrc ==> IFrame 链接，填写后该路由将打开 IFrame 指定的链接
+ * @param meta.frameLoading ==> IFrame 页是否开启首次加载动画（默认 true）
+ * @param meta.frameKeepAlive ==> IFrame 页是否开启缓（默认 false）
+ * @param meta.frameOpen ==> IFrame 页是否开新标签页打开，true 以新标签页打开，false 不打开（默认 false）
+ * @param meta.transition ==> 页面加载动画（有两种形式，一种直接采用 vue 内置的 transitions 动画，另一种是使用 animate.css 写进、离场动画）
+ * @param meta.transition.name ==> 当前路由动画效果
+ * @param meta.transition.enterTransition ==> 进场动画
+ * @param meta.transition.leaveTransition ==> 离场动画
+ * @param meta.hideInTab ==> 是否不添加到标签页，默认 false
+ * @param meta.dynamicLevel ==> 动态路由可打开的最大数量，默认为空
+ * @param meta.useI18n ==>  是否开启 i18n。默认读取全局的 routeUseI18n（src/config/settings.ts）
+ * @param meta.useTooltip ==> 菜单的文字超出后，是否使用 el-toolTip 提示，仅针二级路由及以上生效。默认读取全局的 routeUseTooltip（src/config/settings.ts）
  */
 ```
 
@@ -336,23 +341,26 @@ export const rolesRoutes: RouterConfigRaw[] = [
 
 ### 状态管理 Pinia
 
-状态管理文件既有组件需要的数据、方法、也有用户信息、路由权限等的初始化方法，配合路由守卫进行初始化，位于 `src/store/modules` 下。
+状态管理文件既有组件需要的数据、方法、也有用户信息、路由权限等的初始化方法，配合路由守卫进行初始化，位于 `src/stores` 下。
 
 - `errorLog.ts`：错误日志 store
 - `layout.ts`：布局信息 store
 - `permission.ts`：路由权限 store
 - `settings.ts`：项目客制化 store
 - `user.ts`：用户信息 store
+- `websocket.ts`：WebSocket store
 
 ### 工具
 
-Admin 常用的函数位于 `src/utils` 下，实现复用性，有数据深克隆、URL 参数值截取、展示 title 等功能函数。
+Admin 常用的函数位于 `src/utils` 下，实现复用性，有数据深克隆、URL 参数值截取、ID 生成器等功能函数。
 
-Admin 继承了 Vue3 的核心思想：hooks 函数，位于 `sc/hooks` 下。
+### Hooks
+
+Admin 继承了 Vue3 的核心思想：hooks 函数，位于 `sc/hooks` 下，包括但不限于「缓存、命名空间、复制、验证、Echart」等 Hooks。
 
 ### 接口
 
-组件用到的 TypeScript 类型在 `src/types` 下创建并引入使用。
+组件全局的的 TypeScript 类型在 `types` 下，局部 TypeScript 类型在 `src/types` 下。
 
 全局类型有封装的路由、Meta 类型、axios 请求返回类型、TS 常用类型等。
 
@@ -362,15 +370,17 @@ Admin 模板布局用到的可定制化样式位于 `src/styles` 下，如侧边
 
 ### SVG 图标
 
-Admin 模板使用的图标是 Element UI 内置的和 SVG 格式，因为 Element UI 内置的图标较少，所以自行在网上找 SVG 图标，如 [阿里云矢量图标库](https://www.iconfont.cn/)。
+Admin 模板使用的图标是 Element UI 内置、SVG 格式和 iconify 图标，因为 Element UI 内置的图标较少，所以自行在网上找 SVG 图标，如 [阿里云矢量图标库](https://www.iconfont.cn/)，或者使用 iconify 图标。
 
-图标放置于 `src/assets/svg` 下。
+SVG 图标放置于 `src/assets/icons` 下。
 
 使用步骤：在 vue 组件里使用 Icon 标签，如 `<Icon name="bug" width="20px" height="20px" />`，其中 name 是 svg 的文件名，width 和 height 为图标的宽度和高度。
 
+具体请看 `src/views/components/icon` 里的 Demo。
+
 ### 多环境
 
-Admin 模板内置了多环境，分为本地环境、测试环境、开发环境，本地环境无需设置，
+Admin 模板内置了多环境，分为本地环境、测试环境、开发环境，本地环境无需设置。
 
 - 全局环境的文件：.env
 - 本地环境的文件：.env.development
@@ -388,9 +398,10 @@ Admin 使用了 mittBus 实现事件总栈。
 ThemeDrawer.vue
 
 ```typescript
-import mittBus from "@template/utils/layout/mittBus";
+import mittBus from "@/utils/layout/mittBus";
 
-mittBus.on("openThemeDrawer", (value: boolean) => (drawerVisible.value = value));
+const drawerVisible = ref(false);
+mittBus.on("openThemeDrawer", () => (drawerVisible.value = true));
 ```
 
 从事件总栈触发该事件：
@@ -398,10 +409,10 @@ mittBus.on("openThemeDrawer", (value: boolean) => (drawerVisible.value = value))
 User.vue
 
 ```typescript
-import mittBus from "@template/utils/layout/mittBus";
+import mittBus from "@/utils/layout/mittBus";
 
 const openSettingsDrawer = () => {
-  mittBus.emit("openThemeDrawer", true);
+  mittBus.emit("openThemeDrawer");
 };
 ```
 
@@ -422,12 +433,12 @@ Admin 内置错误日志，当项目抛出 1 个 Error 的时候，Admin 会将�
 相关代码：`layout/components/MainContent/index.vue`
 
 ```typescript
-export type RefreshFunction = (value?: boolean) => boolean;
+export const RefreshKey: InjectionKey<(value?: boolean) => boolean> = Symbol("Refresh");
 
 const refreshCurrentPage: RefreshFunction = (value?: boolean) => {
   // ...
 };
-provide("refresh", refreshCurrentPage);
+provide(RefreshKey, refreshCurrentPage);
 ```
 
 使用的方式有两种：
@@ -437,9 +448,9 @@ provide("refresh", refreshCurrentPage);
 接收的是一个函数，如果您调用该函数时，可以传入参数，参数类型为 boolean 值
 
 ```typescript
-import type { RefreshFunction } from "@/layout/components/MainContent/index.vue";
+import { RefreshKey } from "@/config/symbols";
 
-const refreshCurrentPage = inject("refresh") as RefreshFunction;
+const refreshCurrentPage = inject(RefreshKey);
 refreshCurrentPage(false);
 nextTick(() => {
   refreshCurrentPage(true);
@@ -453,9 +464,9 @@ nextTick(() => {
 您可以直接调用该函数，如果不传入参数，则函数内部自动实现刷新功能
 
 ```typescript
-import type { RefreshFunction } from "@/layout/components/MainContent/index.vue";
+import { RefreshKey } from "@/config/symbols";
 
-const refreshCurrentPage = inject("refresh") as RefreshFunction;
+const refreshCurrentPage = inject(RefreshKey);
 refreshCurrentPage();
 ```
 
@@ -540,4 +551,4 @@ router.replace("/redirect" + route.path);
 
 Admin 根据路由、角色等信息自动生成菜单栏、面包屑、标签页。
 
-用户的默认角色为空数组，实际的角色应该从后端获取。
+用户的默认角色为 `["admin"]`，实际的角色应该从后端获取。

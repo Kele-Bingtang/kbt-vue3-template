@@ -13,11 +13,15 @@
     // This enables stricter inference for data properties on `this`.
     "noImplicitThis": true,
     "strict": true,
+    // 解决 JSX 元素隐式具有类型 "any"，因为不存在接口 "JSX.IntrinsicElements"
+    "noImplicitAny": false,
+    // "jsxImportSource": "vue",
 
     // Required in Vite
     "isolatedModules": true,
     // For `<script setup>`
     // See <https://devblogs.microsoft.com/typescript/announcing-typescript-4-5-beta/#preserve-value-imports>
+    // Enforce using `import type` instead of `import` for types
     "verbatimModuleSyntax": true,
 
     // A few notes:
@@ -56,6 +60,6 @@
     },
     "types": ["element-plus/global", "node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "vite.config.mts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "vite.config.mts", "types/**/*.d.ts"],
   "exclude": ["node_modules", "dist", "**/*.js"]
 }

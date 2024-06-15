@@ -17,11 +17,13 @@
 </template>
 
 <script setup lang="ts" name="LanguageSelect">
-import { useLayout } from "@/hooks/useLayout";
-import type { LanguageType } from "@/stores";
-import { useLayoutStore } from "@/stores/layout";
+import { computed } from "vue";
+import { ElDropdown, ElDropdownMenu, ElDropdownItem } from "element-plus";
+import { useLayout } from "@/hooks";
+import { useLayoutStore, type LanguageType } from "@/stores";
 import { ElMessage } from "element-plus";
 import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
 
 const localList = [
   { label: "中文简体", value: "zh-CN" },
@@ -49,5 +51,3 @@ const handleSelectLanguage = (lang: LanguageType) => {
   });
 };
 </script>
-
-<style lang="scss" scoped></style>
