@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/Kele-Bingtang/kbt-vue3-template/compare/v1.0.0...v1.0.1) (2024-06-15)
+
+### Bug Fixes
+
+- 🐞 优化部分问题 ([b5f23b6](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/b5f23b6567d3cd3ae7fb2459baa2e0ffae275837))
+
 ## 1.0.0 (2024-06-15)
 
 ### Features
