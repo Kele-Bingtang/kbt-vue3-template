@@ -1,5 +1,5 @@
 <template>
-  <div style="flex: 1; background-color: #ffffff">
+  <div style="padding: 20px; background-color: #ffffff">
     <el-descriptions class="margin-top" title="With border" :column="1" border>
       <el-descriptions-item label="完整版 GitHub 地址">
         <el-link type="primary" href="https://github.com/Kele-Bingtang/kbt-vue3-admin">
