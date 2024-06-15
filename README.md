@@ -2,7 +2,7 @@
 
 基于 Vue3.4、TypeScript5、Vite5、Pinia2、Element-Plus2.7 搭建的 Admin Template 模板。
 
-这是纯净版，有项目需要的基础框架。完整版版请看 [kbt-vue3-admin](https://github.com/Kele-Bingtang/kbt-vue3-admin)。
+这是纯净版，有项目需要的基础框架。完整版请看 [kbt-vue3-admin](https://github.com/Kele-Bingtang/kbt-vue3-admin)。
 
 ## 必须操作
 

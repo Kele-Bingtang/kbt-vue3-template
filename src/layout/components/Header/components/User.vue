@@ -61,6 +61,7 @@ const settingsLabel = computed(() => {
   const settings = t("_headerBar.settings");
   return settings === "_headerBar.settings" ? "我的设置" : settings;
 });
+
 const logOutLabel = computed(() => {
   const logOut = t("_headerBar.logOut");
   return logOut === "_headerBar.logOut" ? "退出登录" : logOut;

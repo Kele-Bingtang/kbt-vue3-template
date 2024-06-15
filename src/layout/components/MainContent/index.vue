@@ -80,6 +80,7 @@ const isFixTabsNav = computed(() => {
 
   .main-content {
     padding: 10px 12px;
+    margin: 10px 12px;
     overflow: v-bind(isFixTabsNav);
   }
 
