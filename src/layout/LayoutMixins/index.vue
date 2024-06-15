@@ -1,7 +1,7 @@
 <template>
-  <el-container class="layout-container" :class="{ 'menu-collapse': isCollapse, 'menu-expand': !isCollapse }">
+  <el-container :class="[prefixClass, isCollapse ? 'menu-collapse' : 'menu-expand']">
     <el-header class="flx-justify-between">
-      <div class="logo flx-center" @click="router.push(HOME_URL)">
+      <div :class="`${prefixClass}__logo layout__logo flx-center`" @click="router.push(HOME_URL)">
         <img src="@/assets/images/logo.png" alt="logo" v-if="settingsStore.showLayoutLogo" />
         <span>{{ settings.title }}</span>
       </div>
@@ -11,29 +11,37 @@
         :active-menu="activeMenu"
         mode="horizontal"
         :is-collapse="false"
-        class="mixins-header-menu"
+        :wrap-style="{ overflow: 'hidden' }"
+        :class="`${prefixClass}__menu`"
+        :popper-class="`${prefixClass}__menu`"
       />
       <HeaderRight />
     </el-header>
-    <el-container class="mixins-container">
-      <el-aside :class="{ 'not-aside': !childrenMenu.length }">
-        <Menu :menu-list="childrenMenu" />
+    <el-container :class="`${prefixClass}__aside`">
+      <el-aside v-if="childrenMenu?.length" :class="{ 'not-aside': !childrenMenu.length }">
+        <Menu :menu-list="childrenMenu" :class="`${prefixClass}__menu`" :popper-class="`${prefixClass}__menu`" />
       </el-aside>
       <MainContent />
     </el-container>
   </el-container>
 </template>
+
 <script setup lang="ts" name="LayoutMixins">
-import { useSettingsStore } from "@/stores/settings";
+import { computed, watch, ref, unref } from "vue";
+import { ElContainer, ElAside, ElHeader } from "element-plus";
+import { useSettingsStore, usePermissionStore } from "@/stores";
 import MainContent from "@/layout/components/MainContent/index.vue";
-import { usePermissionStore } from "@/stores/permission";
-import { useLayout } from "@/hooks/useLayout";
-import { useRoutes } from "@/hooks/useRoutes";
+import { useLayout, useRoutes } from "@/hooks";
 import settings from "@/config/settings";
-import Menu from "@/layout/components/Menu/index.vue";
 import CollapseTrigger from "@/layout/components/Header/components/CollapseTrigger.vue";
+import Menu from "@/layout/components/Menu/index.vue";
 import HeaderRight from "@/layout/components/Header/HeaderRight.vue";
 import { HOME_URL } from "@/router/routesConfig";
+import { useDesign } from "@/hooks";
+import { useRoute, useRouter } from "vue-router";
+
+const { getPrefixClass } = useDesign();
+const prefixClass = getPrefixClass("mixins-layout");
 
 const route = useRoute();
 const router = useRouter();
@@ -52,6 +60,7 @@ const menuList = computed(() => {
     return getMenuListByRouter(menu);
   } else return getMenuListByRouter(permissionStore.loadedRouteList);
 });
+
 const parentMenu = computed(() => {
   const parentMenu: RouterConfig[] = [];
   menuList.value.forEach(menuItem => {
@@ -63,12 +72,11 @@ const parentMenu = computed(() => {
 });
 
 watch(
-  () => [menuList, route],
+  route,
   () => {
     // 当前菜单没有数据直接 return
-    if (!menuList.value.length) return;
-
-    const item = menuList.value.filter(
+    if (!unref(menuList).length) return;
+    const item = unref(menuList).filter(
       item =>
         route.path === item.path ||
         `/${route.path.split("/")[1]}` === item.path ||
@@ -77,9 +85,9 @@ watch(
         findParentRoutesByPath(`/${route.path.split("/")[1]}`, permissionStore.loadedRouteList, "path")[0] === item.path
     );
 
-    activeMenu.value = item[0].path;
+    activeMenu.value = item[0]?.path || "";
 
-    if (item[0].children?.length) return (childrenMenu.value = item[0].children);
+    if (item[0] && item[0].children?.length) return (childrenMenu.value = item[0].children);
     childrenMenu.value = [];
   },
   {
@@ -88,9 +96,11 @@ watch(
   }
 );
 </script>
+
 <style lang="scss" scoped>
-@import "./index-scoped";
+@import "./index";
 </style>
+
 <style lang="scss">
-@import "./index-unlimited";
+@import "./menu";
 </style>

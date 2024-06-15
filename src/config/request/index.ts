@@ -1,28 +1,27 @@
 import axios, { type AxiosInstance, AxiosError, type AxiosRequestConfig, type InternalAxiosRequestConfig } from "axios";
 import { showFullScreenLoading, tryHideFullScreenLoading } from "@/config/request/serviceLoading";
 import qs from "qs";
-import { isArray, isExternal } from "@/utils/layout/validate";
+import { isArray, isExternal, message } from "@/utils";
 import { ContentTypeEnum, ResultEnum } from "./httpEnum";
-import { useErrorLogStore } from "@/stores/errorLog";
+import { useErrorLogStore, useUserStore } from "@/stores";
 import { AxiosCanceler } from "./axiosCancel";
 import { checkStatus } from "./checkStatus";
 import router from "@/router";
-import { useUserStore } from "@/stores/user";
 import { LOGIN_URL } from "@/router/routesConfig";
-import { message } from "@/utils/layout/message";
-
-const axiosCanceler = new AxiosCanceler();
+import { ElNotification } from "element-plus";
 
 type AxiosRequestConfigProp<D = any> = AxiosRequestConfig<D> & {
   method: "get" | "post" | "delete" | "put" | "download";
 };
+
+const axiosCanceler = new AxiosCanceler();
 
 /**
  * @description 当请求 url 携带的如下前缀（key），会替换为 http（value），如接口 url 为 /test/xx/xxx，则最终发送的请求为 https://youngkbt.cn/xx/xxx
  * @condition 接口在 header 填写 mapping: true 来开启 URL 映射功能，{ headers: { mapping: true } }
  * 详细请看 README.md 文档的 API 介绍
  */
-const mappingUrl: { [key: string]: string } = {
+const mappingUrl: Record<string, string> = {
   default: import.meta.env.VITE_API_URL,
   // test: "https://youngkbt.cn",
 };
@@ -113,10 +112,10 @@ class RequestHttp {
   get<T>(url: string, params?: object, _object = {}): Promise<T> {
     return this.service.get(url, { params, ..._object });
   }
-  post<T>(url: string, params?: object, _object = {}): Promise<T> {
+  post<T>(url: string, params?: object | string, _object = {}): Promise<T> {
     return this.service.post(url, params, _object);
   }
-  put<T>(url: string, params?: object, _object = {}): Promise<T> {
+  put<T>(url: string, params?: object | string, _object = {}): Promise<T> {
     return this.service.put(url, params, _object);
   }
   delete<T>(url: string, params?: any, _object = {}): Promise<T> {
@@ -234,3 +233,49 @@ function processError(error: AxiosError) {
     };
   }
 }
+
+/**
+ * h 手动渲染 ElNotification
+ */
+export const noPermission = () => {
+  ElNotification.closeAll();
+
+  const notify = ElNotification({
+    title: "身份异常",
+    dangerouslyUseHTMLString: true,
+    message: h("div", {}, [
+      h("div", [
+        "身份失效，您需要重新登录",
+        h("strong", { style: { color: "red" } }, ["，点击确定将重新登录，"]),
+        "建议登录之前，",
+        h("strong", { style: { color: "red" } }, ["保存好自己的数据！"]),
+      ]),
+      h("div", { style: { float: "right" } }, [
+        h(
+          "span",
+          {
+            style: { marginRight: "10px", cursor: "pointer", border: "var(--el-border)", padding: "2px 8px" },
+            onClick: () => closeNotify(),
+          },
+          ["取消"]
+        ),
+        h(
+          "span",
+          {
+            style: { cursor: "pointer", border: "var(--el-border)", padding: "2px 8px" },
+            onClick: () => confirmRefresh(),
+          },
+          ["确定"]
+        ),
+      ]),
+    ]),
+    type: "warning",
+    duration: 0,
+  });
+  function closeNotify() {
+    notify.close();
+  }
+  function confirmRefresh() {
+    window.location.reload();
+  }
+};

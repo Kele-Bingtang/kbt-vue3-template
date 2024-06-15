@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
-import { removeCacheTabNavList } from "@/utils/layout/cache";
 import type { LayoutModeType, LayoutThemeType, TabsNavModeType } from ".";
 import defaultSettings from "@/config/settings";
+import { ref } from "vue";
+import { useStorage, useCache } from "@/hooks";
 
 const {
   primaryTheme: primaryThemeSetting,
@@ -17,6 +18,8 @@ const {
   showBreadcrumbIcon: showBreadcrumbIconSetting,
   showTabsNavIcon: tabsNavSetting,
   isCollapse: isCollapseSetting,
+  menuAccordion: menuAccordionSetting,
+  fixTabsNav: fixTabsNavSetting,
   isDark: isDarkSetting,
   isWeak: isWeakSetting,
   isGrey: isGreySetting,
@@ -41,13 +44,15 @@ export const useSettingsStore = defineStore(
     const showBreadcrumbIcon = ref(showBreadcrumbIconSetting);
     const showTabsNavIcon = ref(tabsNavSetting);
     const isCollapse = ref(isCollapseSetting);
+    const menuAccordion = ref(menuAccordionSetting);
+    const fixTabsNav = ref(fixTabsNavSetting);
     const isDark = ref(isDarkSetting);
     const isWeak = ref(isWeakSetting);
     const isGrey = ref(isGreySetting);
     const headerTheme = ref<LayoutThemeType>(layoutThemeSetting);
     const maximize = ref(maximizeSetting);
-    const menuWidth = ref(parseInt(menuWidthSetting));
-    const headerHeight = ref(parseInt(headerHeightSetting));
+    const menuWidth = ref(menuWidthSetting);
+    const headerHeight = ref(headerHeightSetting);
 
     const closeSideMenu = () => {
       isCollapse.value = true;
@@ -58,10 +63,9 @@ export const useSettingsStore = defineStore(
     };
 
     const resetSettings = () => {
-      localStorage.removeItem(defaultSettings.settingCacheKey);
-      if (!recordTabsNav.value) {
-        removeCacheTabNavList();
-      }
+      const { removeStorage } = useStorage("localStorage");
+      removeStorage(`${defaultSettings.cacheKeyPrefix}_settingsStore`);
+      if (!recordTabsNav.value) useCache().removeCacheTabNavList();
     };
 
     return {
@@ -78,6 +82,8 @@ export const useSettingsStore = defineStore(
       showBreadcrumbIcon,
       showTabsNavIcon,
       isCollapse,
+      menuAccordion,
+      fixTabsNav,
       isDark,
       isWeak,
       isGrey,
@@ -92,9 +98,6 @@ export const useSettingsStore = defineStore(
     };
   },
   {
-    persist: {
-      key: defaultSettings.settingCacheKey,
-      storage: localStorage,
-    },
+    persist: true,
   }
 );

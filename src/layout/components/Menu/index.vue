@@ -6,9 +6,9 @@
       background-color="var(--menu-bg-color)"
       text-color="var(--menu-text-color)"
       :active-text-color="primaryTheme"
-      unique-opened
+      :unique-opened="settingsStore.menuAccordion"
       :collapse-transition="false"
-      :mode="props.mode"
+      v-bind="$attrs"
     >
       <MenuItem v-for="menu in menuList" :key="menu.path" :menu-item="menu" />
     </el-menu>
@@ -16,21 +16,23 @@
 </template>
 
 <script setup lang="ts" name="Menu">
-import { useLayout } from "@/hooks/useLayout";
-import { usePermissionStore } from "@/stores/permission";
-import { useSettingsStore } from "@/stores/settings";
+import { ElScrollbar, ElMenu } from "element-plus";
+import { computed } from "vue";
+import { useLayout } from "@/hooks";
+import { usePermissionStore, useSettingsStore } from "@/stores";
 import settings from "@/config/settings";
 import MenuItem from "@/layout/components/Menu/MenuItem.vue";
+import { useRoute } from "vue-router";
 
 interface MenuProps {
   menuList?: RouterConfig[];
   activeMenu?: string;
-  mode?: "vertical" | "horizontal";
   isCollapse?: boolean;
 }
 
 const props = withDefaults(defineProps<MenuProps>(), {
-  mode: "vertical",
+  menuList: () => [],
+  activeMenu: "",
   isCollapse: undefined,
 });
 const route = useRoute();
@@ -45,7 +47,7 @@ const isCollapse = computed(() => (props.isCollapse === undefined ? settingsStor
 const primaryTheme = computed(() => settingsStore.primaryTheme);
 
 const menuList = computed(() => {
-  if (props.menuList) return props.menuList;
+  if (props.menuList?.length) return props.menuList;
   /**
    * 第一次是将 hideInMenu 和 Children 为 1 的过滤掉，第二次是将最终 Children 为 1 的过滤掉（可能第一次 Children 有多个，只有一个 hideInMenu 不为 true）
    *
@@ -64,5 +66,3 @@ const menuList = computed(() => {
   }
 });
 </script>
-
-<style lang="scss" scoped></style>

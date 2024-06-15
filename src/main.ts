@@ -1,34 +1,34 @@
 import { createApp } from "vue";
-import { createPinia } from "pinia";
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
-import ElementPlus from "element-plus";
-import "element-plus/dist/index.css";
-import "element-plus/theme-chalk/dark/css-vars.css"; // 内置暗黑模式
-import "@/styles/element-dark.scss"; // 自定义暗黑模式
+import pinia from "@/stores";
 import App from "./App.vue";
 import router from "./router";
 import "@/styles/normalize.css"; // CSS Reset
-import directives from "@/directives/index";
-import I18n from "@/languages/index";
-// svg icons
+import directives from "@/directives";
+import I18n from "@/languages";
 import "virtual:svg-icons-register";
-import Icon from "@/components/Icon/index.vue";
-import errorHandler, { checkNeed } from "@/utils/layout/errorHandler";
-import Auth from "@/components/Permission/auth";
-import Role from "@/components/Permission/role.vue";
+import { Icon, Auth, Role } from "@/components";
+import { errorHandler, checkNeed, log } from "@/utils";
 
-const pinia = createPinia();
 const app = createApp(App);
-pinia.use(piniaPluginPersistedstate);
 
+window.log = log;
 checkNeed() && (app.config.errorHandler = errorHandler);
 
-// 全局注册按钮级别权限组件
-app.component("Auth", Auth);
+// 全局注册按钮级别权限、页面级别权限、Icon 图标组件组件
+app.use(Auth).use(Role).use(Icon);
 
-// 全局注册页面级别权限组件
-app.component("Role", Role);
+// 是否全部引入 Element Plus 的样式
+if (import.meta.env.VITE_LOAD_ALL_EP_STYLE === "true") {
+  import("element-plus/theme-chalk/src/index.scss");
+}
 
-app.component("Icon", Icon);
+// 是否全部引入 Element Plus 的组件
+if (import.meta.env.VITE_LOAD_ALL_EP_COMPONENTS === "true") {
+  // EP 样式按需引入和组件全部引入有冲突。因为样式按需引入的前提是手动 import 组件（import 组件才根据组件去找样式），而组件全部引入导致在 vue 文件不需要 import。所以样式按需引入会失效，因此这里全量引入样式
+  if (import.meta.env.VITE_LOAD_ALL_EP_STYLE === "false") import("element-plus/theme-chalk/src/index.scss");
+  import("element-plus").then(ElementPlus => {
+    app.use(ElementPlus);
+  });
+}
 
-app.use(I18n).use(pinia).use(router).use(directives).use(ElementPlus).mount("#app");
+app.use(I18n).use(pinia).use(router).use(directives).mount("#app");

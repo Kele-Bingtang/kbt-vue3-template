@@ -1,5 +1,8 @@
 @import "./variables";
 @import "./transition";
+@import "./module/namespace";
+@import "element-plus/theme-chalk/dark/css-vars.css"; // Element Plus 内置暗黑模式
+@import "./element-dark.scss"; // 自定义暗黑模式
 
 /* Global scss */
 body {
@@ -116,24 +119,26 @@ div:focus {
 
 /* nprogress 样式 */
 #nprogress .bar {
-  background: var(--el-color-primary) !important;
+  background: var(--#{$el-namespace}-color-primary) !important;
 }
 
 #nprogress .spinner-icon {
-  border-top-color: var(--el-color-primary) !important;
-  border-left-color: var(--el-color-primary) !important;
+  border-top-color: var(--#{$el-namespace}-color-primary) !important;
+  border-left-color: var(--#{$el-namespace}-color-primary) !important;
 }
 
 #nprogress .peg {
-  box-shadow: 0 0 10px var(--el-color-primary), 0 0 5px var(--el-color-primary) !important;
+  box-shadow:
+    0 0 10px var(--#{$el-namespace}-color-primary),
+    0 0 5px var(--#{$el-namespace}-color-primary) !important;
 }
 
 /* 当前页面最大化 css */
 .main-maximize {
   .aside-split,
-  .el-aside,
-  .el-header,
-  .el-footer,
+  .#{$el-namespace}-aside,
+  .#{$el-namespace}-header,
+  .#{$el-namespace}-footer,
   .tabs-nav {
     display: none !important;
   }
@@ -144,27 +149,32 @@ div:focus {
   padding: 10px 13px !important;
   background: #ffffff !important;
   border-width: 0 !important;
-  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d !important;
+  box-shadow:
+    0 3px 6px -4px #0000001f,
+    0 6px 16px #00000014,
+    0 9px 28px 8px #0000000d !important;
 
-  &.el-message.is-closable .el-message__content {
+  &.#{$el-namespace}-message.is-closable .#{$el-namespace}-message__content {
     padding-right: 17px !important;
   }
 
-  & .el-message__content {
+  & .#{$el-namespace}-message__content {
     color: #000000d9 !important;
     pointer-events: all !important;
     background-image: initial !important;
   }
 
-  & .el-message__icon {
+  & .#{$el-namespace}-message__icon {
     margin-right: 8px !important;
   }
 
-  & .el-message__closeBtn {
+  & .#{$el-namespace}-message__closeBtn {
     right: 9px !important;
     border-radius: 4px;
     outline: none;
-    transition: background-color 0.2s, color 0.2s;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
 
     &:hover {
       background-color: rgb(0 0 0 / 6%);
@@ -177,31 +187,36 @@ div:focus {
   box-sizing: border-box;
   padding: 20px;
   overflow-x: hidden;
-  background-color: var(--el-fill-color-blank);
-  border: 1px solid var(--el-border-color-light);
+  background-color: var(--#{$el-namespace}-fill-color-blank);
+  border: 1px solid var(--#{$el-namespace}-border-color-light);
   border-radius: 4px;
   box-shadow: 0 0 12px rgb(0 0 0 / 5%);
 }
 
+.hover-theme-color:hover {
+  color: var(--#{$el-namespace}-color-primary);
+}
+
 /* 自定义 el-drawer 样式 */
-.el-drawer {
-  .el-drawer__header {
+.#{$el-namespace}-drawer {
+  .#{$el-namespace}-drawer__header {
     padding: 15px 20px 14px;
     margin-bottom: 0;
-    border-bottom: 1px solid var(--el-border-color-lighter);
+    border-bottom: 1px solid var(--#{$el-namespace}-border-color-lighter);
 
-    span {
-      font-size: 17px;
-      color: var(--el-text-color-primary) !important;
-    }
+    // 统一 Dialog、Drawer 字体大小可以打开
+    // span {
+    //   font-size: 17px;
+    //   color: var(--#{$el-namespace}-text-color-primary) !important;
+    // }
   }
 
-  .el-drawer__footer {
-    border-top: 1px solid var(--el-border-color-lighter);
+  .#{$el-namespace}-drawer__footer {
+    border-top: 1px solid var(--#{$el-namespace}-border-color-lighter);
   }
 
   /* drawer select 样式 */
-  .el-select {
+  .#{$el-namespace}-select {
     width: 100%;
   }
 
@@ -210,7 +225,7 @@ div:focus {
     display: flex;
     flex-wrap: wrap;
 
-    .el-form-item {
+    .#{$el-namespace}-form-item {
       width: 47%;
 
       &:nth-child(2n-1) {
@@ -221,14 +236,63 @@ div:focus {
 }
 
 /* 自定义 el-dialog 样式 */
-.el-dialog {
-  .el-dialog__header {
-    padding: 15px 20px;
-    margin: 0;
-    border-bottom: 1px solid var(--el-border-color-lighter);
+.#{$el-namespace}-dialog {
+  .#{$el-namespace}-dialog__header {
+    border-bottom: 1px solid var(--#{$el-namespace}-border-color-lighter);
 
-    .el-dialog__title {
-      font-size: 17px;
-    }
+    // 统一 Dialog、Drawer 字体大小可以打开
+    // span {
+    //   font-size: 17px;
+    //   color: var(--#{$el-namespace}-text-color-primary) !important;
+    // }
+  }
+
+  .#{$el-namespace}-dialog__body {
+    padding-top: 15px;
+  }
+
+  .#{$el-namespace}-dialog__footer {
+    border-top: 1px solid var(--#{$el-namespace}-border-color-lighter);
+  }
+}
+
+/* 自定义原子类 */
+@for $i from 1 through 6 {
+  .m-#{$i * 5} {
+    margin: ($i * 5) + px;
+  }
+  .mt-#{$i * 5} {
+    margin-top: ($i * 5) + px;
+  }
+  .mb-#{$i * 5} {
+    margin-bottom: ($i * 5) + px;
+  }
+  .ml-#{$i * 5} {
+    margin-left: ($i * 5) + px;
+  }
+  .mr-#{$i * 5} {
+    margin-right: ($i * 5) + px;
+  }
+
+  .p-#{$i * 5} {
+    padding: ($i * 5) + px;
+  }
+  .pt-#{$i * 5} {
+    padding-top: ($i * 5) + px;
+  }
+  .pb-#{$i * 5} {
+    padding-bottom: ($i * 5) + px;
+  }
+  .pl-#{$i * 5} {
+    padding-left: ($i * 5) + px;
+  }
+  .pr-#{$i * 5} {
+    padding-right: ($i * 5) + px;
+  }
+}
+
+@for $i from 14 through 24 {
+  .fz-#{$i} {
+    font-size: ($i) + px;
   }
 }

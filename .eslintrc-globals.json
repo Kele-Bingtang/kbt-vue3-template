@@ -64,7 +64,6 @@
     "watchPostEffect": true,
     "watchSyncEffect": true,
     "MetaProp": true,
-    "RouteConfig": true,
     "RouterConfig": true,
     "RouterConfigRaw": true,
     "process": true,
@@ -73,6 +72,11 @@
     "PartialKey": true,
     "RequiredKey": true,
     "RequiredKeyPartialOther": true,
+    "Recordable": true,
+    "Nullable": true,
+    "keyLowercase": true,
+    "keyUppercase": true,
+    "keyOnPrefix": true,
     "NodeJS": true,
     "module": true,
     "ImportMetaEnv": true,
@@ -80,6 +84,8 @@
     "NodeListOf": true,
     "AppInfo": true,
     "__APP_INFO__": true,
-    "http": true
+    "http": true,
+    "ExtractPropTypes": true,
+    "log": true
   }
 }

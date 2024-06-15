@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ show: isShowSearch }" class="header-search">
+  <div :class="[prefixClass, { show: isShowSearch }]">
     <Icon
       name="search"
       width="20px"
@@ -18,12 +18,12 @@
     >
       <template #prefix>
         <el-tooltip effect="dark" content="切换查询模式" placement="left" :show-after="100">
-          <el-icon class="search-icon" @click.stop="handleSwitchMode"><Search /></el-icon>
+          <el-icon :class="`${prefixClass}__icon`" @click.stop="handleSwitchMode"><Search /></el-icon>
         </el-tooltip>
       </template>
       <template #default="{ item }">
         <template v-if="!isFunction(item.meta.title)">
-          <CommonIcon :icon="item.meta.icon" />
+          <Icon :icon="item.meta.icon" />
           <span>{{ nestMode ? item.title.join(" > ") : item.meta.title }}</span>
         </template>
       </template>
@@ -32,12 +32,18 @@
 </template>
 
 <script setup lang="ts" name="MenuSearch">
-import { useLayout } from "@/hooks/useLayout";
-import { usePermissionStore } from "@/stores/permission";
-import CommonIcon from "@/layout/components/CommonIcon/index.vue";
+import { computed, ref, onUnmounted, nextTick } from "vue";
+import { ElAutocomplete, ElTooltip, ElIcon } from "element-plus";
+import { useLayout } from "@/hooks";
+import { usePermissionStore } from "@/stores";
 import { useDebounceFn } from "@vueuse/core";
-import { isFunction } from "@/utils/layout/validate";
+import { isFunction } from "@/utils";
 import { Search } from "@element-plus/icons-vue";
+import { useDesign } from "@/hooks";
+import { useRouter, type RouteLocationNormalizedLoaded } from "vue-router";
+
+const { getPrefixClass } = useDesign();
+const prefixClass = getPrefixClass("menu-search");
 
 const router = useRouter();
 const permissionStore = usePermissionStore();
@@ -103,7 +109,7 @@ const handleSwitchMode = () => {
 
 // 筛选菜单
 const filterNodeMethod = (queryString: string) => {
-  return (restaurant: RouteConfig) => {
+  return (restaurant: RouteLocationNormalizedLoaded) => {
     return (
       restaurant.meta._fullPath.toLowerCase().indexOf(queryString.toLowerCase()) > -1 ||
       getTitle(restaurant)?.toLowerCase().indexOf(queryString.toLowerCase()) > -1
@@ -124,7 +130,7 @@ const handleClickMenu = (menuItem: Record<string, any>) => {
  * @param menuList 嵌套菜单列表
  */
 const createNestMenuSearchList = (menuList: RouterConfig[]) => {
-  const res: (RouterConfig & { title: string[] })[] = [];
+  const res: (RouterConfigRaw & { title: string[] })[] = [];
   menuList.forEach(menu => {
     if (menu.meta.hideInMenu) return res;
     const item = { ...menu, title: [getTitle(menu)] };
@@ -148,41 +154,43 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.header-search {
+$prefix-class: #{$admin-namespace}-menu-search;
+
+.#{$prefix-class} {
   &:not(.show) {
-    :deep(.el-autocomplete) {
+    :deep(.#{$el-namespace}-autocomplete) {
       width: 0;
       transition: width 0.2s;
 
-      .el-input__wrapper {
+      .#{$el-namespace}-input__wrapper {
         width: 0;
         padding: 0;
       }
 
-      .el-input__prefix {
+      .#{$el-namespace}-input__prefix {
         display: none;
       }
     }
   }
 
   &.show {
-    :deep(.el-autocomplete) {
+    :deep(.#{$el-namespace}-autocomplete) {
       width: 220px;
       transition: width 0.2s;
     }
   }
 
-  .search-icon {
+  &__icon {
     cursor: pointer;
 
     &:hover {
-      color: var(--el-color-primary);
+      color: var(--#{$el-namespace}-color-primary);
     }
   }
 }
 
-.el-autocomplete__popper {
-  .el-icon {
+.#{$el-namespace}-autocomplete__popper {
+  .#{$el-namespace}-icon {
     position: relative;
     top: 2px;
     font-size: 16px;

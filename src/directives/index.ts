@@ -1,5 +1,6 @@
 import type { App } from "vue";
 import copy from "./modules/copy";
+import waterMarker from "./modules/waterMarker";
 import draggable from "./modules/draggable";
 import debounce from "./modules/debounce";
 import throttle from "./modules/throttle";
@@ -9,7 +10,9 @@ import role from "./modules/permission/role";
 import auth from "./modules/permission/auth";
 
 const directivesList: any = {
+  // Custom directives
   copy,
+  waterMarker,
   draggable,
   debounce,
   throttle,

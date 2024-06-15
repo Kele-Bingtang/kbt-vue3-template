@@ -1,6 +1,6 @@
-import { isArray } from "@/utils/layout/validate";
+import { isArray } from "@/utils";
 import settings from "@/config/settings";
-import { useErrorLogStore } from "@/stores/errorLog";
+import { useErrorLogStore } from "@/stores";
 import { ElNotification } from "element-plus";
 
 const { errorLog } = settings;
@@ -19,7 +19,7 @@ export const checkNeed = () => {
 /**
  * @description 捕获错误回调
  */
-const errorHandler = (error: any, vm: ComponentPublicInstance | null, info: string) => {
+export const errorHandler = (error: any, vm: ComponentPublicInstance | null, info: string) => {
   if (!checkNeed()) return;
   const errorStore = useErrorLogStore();
   errorStore.addErrorLog({
@@ -31,7 +31,7 @@ const errorHandler = (error: any, vm: ComponentPublicInstance | null, info: stri
   });
   // 过滤 HTTP 请求错误
   if (error.status || error.status === 0) return false;
-  const errorMap: { [key: string]: string } = {
+  const errorMap: Record<string, string> = {
     InternalError: "Javascript引擎内部错误",
     ReferenceError: "未找到对象",
     TypeError: "使用了错误的类型或对象",
@@ -48,5 +48,3 @@ const errorHandler = (error: any, vm: ComponentPublicInstance | null, info: stri
     duration: 3000,
   });
 };
-
-export default errorHandler;

@@ -1,8 +1,7 @@
-import NProgress from "@/config/nprogress";
+import { NProgress } from "@/utils";
 import settings from "@/config/settings";
-import { useRoutes } from "@/hooks/useRoutes";
-import { usePermissionStore } from "@/stores/permission";
-import { useUserStore } from "@/stores/user";
+import { useRoutes } from "@/hooks";
+import { usePermissionStore, useUserStore } from "@/stores";
 import {
   createRouter,
   createWebHashHistory,
@@ -10,11 +9,11 @@ import {
   type RouteRecordRaw,
   type RouterHistory,
 } from "vue-router";
-import { constantRoutes, errorRouter, LOGIN_URL } from "./routesConfig";
+import { constantRoutes, LOGIN_URL } from "./routesConfig";
 
 const router = createRouter({
   history: getHistoryMode(import.meta.env.VITE_ROUTER_MODE),
-  routes: [...constantRoutes, ...errorRouter] as RouteRecordRaw[],
+  routes: [...constantRoutes] as RouteRecordRaw[],
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });
 

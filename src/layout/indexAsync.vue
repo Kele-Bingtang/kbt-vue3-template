@@ -11,13 +11,15 @@
 </template>
 
 <script setup lang="ts" name="Layout">
-import { useSettingsStore } from "@/stores/settings";
-import { useLayout } from "@/hooks/useLayout";
+import { useSettingsStore } from "@/stores";
+import { useLayout } from "@/hooks";
 import ThemeDrawer from "@/layout/components/ThemeDrawer/index.vue";
 import Loading from "./components/Loading/index.vue";
 import { getPx, setStyleVar } from "@/utils";
+import { type Component, defineAsyncComponent, computed, watch, watchEffect } from "vue";
+import { useRoute } from "vue-router";
 
-const LayoutComponents: { [key: string]: Component } = {
+const LayoutComponents: Record<string, Component> = {
   vertical: defineAsyncComponent(() => import("./LayoutVertical/index.vue")),
   classic: defineAsyncComponent(() => import("./LayoutClassic/index.vue")),
   transverse: defineAsyncComponent(() => import("./LayoutTransverse/index.vue")),
@@ -42,24 +44,5 @@ watch(
 
 watchEffect(() => setStyleVar("--aside-width", getPx(settingsStore.menuWidth)));
 
-watchEffect(() => setStyleVar("--el-menu-horizontal-height", getPx(settingsStore.headerHeight)));
+watchEffect(() => setStyleVar("--header-height", getPx(settingsStore.headerHeight)));
 </script>
-
-<style lang="scss">
-// 暗色模式布局恢复默认颜色，如果暗黑模式的某些样式被自定义样式覆盖，则在这里让它生效
-.dark {
-  .header-left {
-    .el-breadcrumb__inner {
-      color: var(--el-text-color-regular) !important;
-    }
-  }
-
-  .el-header {
-    color: var(--el-text-color-regular) !important;
-  }
-
-  .el-dropdown {
-    color: var(--el-text-color-regular) !important;
-  }
-}
-</style>

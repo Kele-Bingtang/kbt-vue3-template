@@ -1,6 +1,6 @@
 <template>
-  <div class="tabs-nav" ref="tabsNavRef">
-    <div class="tabs-content">
+  <div :class="prefixClass" ref="tabsNavRef">
+    <div :class="`${prefixClass}__content`">
       <el-tabs v-model="tabsNavValue" type="card" @tab-click="tabClick" @tab-remove="tabRemove">
         <el-tab-pane
           v-for="tab in tabNavList"
@@ -11,10 +11,10 @@
         >
           <template #label>
             <div style="display: inline-block" @contextmenu.prevent="openRightMenu($event, tab, tabsNavRef)">
-              <CommonIcon
+              <Icon
                 v-if="tab.meta.icon && settingsStore.showTabsNavIcon"
                 :icon="tab.meta.icon"
-                class="tab-icon"
+                :class="`${prefixClass}__content--icon`"
               />
               <span>{{ tab.title }}</span>
             </div>
@@ -36,12 +36,17 @@
 </template>
 
 <script setup lang="ts" name="ElTabsNav">
-import { useSettingsStore } from "@/stores/settings";
-import type { TabPaneName, TabsPaneContext } from "element-plus";
-import CommonIcon from "@/layout/components/CommonIcon/index.vue";
+import { ref, onMounted, watch } from "vue";
+import { ElTabs, ElTabPane, type TabPaneName, type TabsPaneContext } from "element-plus";
+import { useSettingsStore } from "@/stores";
 import { useTabsNav } from "../useTabsNav";
 import RightMenu from "../components/RightMenu.vue";
 import MenuButton from "../components/MenuDropdown.vue";
+import { useDesign } from "@/hooks";
+import { useRoute, useRouter } from "vue-router";
+
+const { getPrefixClass, variables } = useDesign();
+const prefixClass = getPrefixClass("tabs-nav");
 
 const route = useRoute();
 const router = useRouter();
@@ -66,7 +71,7 @@ const tabsNavValue = ref(resolveFullPath(route));
 const tabsNavRef = ref<HTMLElement>(); // 根标签
 
 onMounted(() => {
-  tabsDrop(".el-tabs__nav", ".el-tabs__item");
+  tabsDrop(`.${variables.elNamespace}-tabs__nav`, `.${variables.elNamespace}-tabs__item`);
   initTabs();
   addOneTab();
 });

@@ -65,7 +65,7 @@ export const constantRoutes: RouterConfigRaw[] = [
     name: "Layout",
     component: () => import("@/layout/index.vue"),
     redirect: HOME_URL,
-    meta: { hideInMenu: true, hideInBread: true },
+    meta: { hideInMenu: true },
     children: [
       {
         path: "/error-log",
@@ -77,32 +77,6 @@ export const constantRoutes: RouterConfigRaw[] = [
   },
 ];
 
-export const errorRouter: RouterConfigRaw[] = [
-  {
-    path: "/403",
-    name: "403",
-    component: () => import("@/views/error/403.vue"),
-    meta: {
-      title: "403 页面",
-    },
-  },
-  {
-    path: "/404",
-    name: "404",
-    component: () => import("@/views/error/404.vue"),
-    meta: {
-      title: "404 页面",
-    },
-  },
-  {
-    path: "/500",
-    name: "500",
-    component: () => import("@/views/error/500.vue"),
-    meta: {
-      title: "500 页面",
-    },
-  },
-];
 /**
  * notFoundRouter(找不到路由)
  */
