@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.3](https://github.com/Kele-Bingtang/kbt-vue3-template/compare/v1.0.2...v1.0.3) (2024-06-20)
+
+### Features
+
+- 🚀 新增 removeBatchTab 函数，优化路由初始化判断，路由配置支持菜单 render ([fa95a91](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/fa95a911d6e7d8ee7bd035cd3117838b5ecb0558))
+
+### Styling
+
+- 🎨 登录逻辑移到 router beforeEach 里 ([0f5584b](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/0f5584b1e3e8385e85baad6326f7be5543e041cd))
+- 🎨 主题色悬停 class 重命名 ([875ad51](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/875ad519ec44a35ee867cc6fb17878d0a352ec96))
+
 ### [1.0.2](https://github.com/Kele-Bingtang/kbt-vue3-template/compare/v1.0.1...v1.0.2) (2024-06-15)
 
 ### Styling
