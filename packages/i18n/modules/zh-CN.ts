@@ -3,6 +3,7 @@ export default {
     Home: "首页",
     Login: "登录",
     Layout: "布局",
+    Redirect: "重定向",
     ErrorLog: "错误日志",
     Error: "错误页面",
     403: "403 页面",
