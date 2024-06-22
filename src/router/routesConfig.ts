@@ -34,35 +34,14 @@
  */
 
 import { HomeFilled } from "@element-plus/icons-vue";
+import { HOME_URL, HOME_NAME, LOGIN_URL, LOGIN_NAME, LAYOUT_NAME, REDIRECT_NAME, NOT_FOUND } from "@/config/constant";
 
-export const HOME_URL = "/home";
-export const HOME_NAME = "Home";
-export const LOGIN_URL = "/login";
+export { HOME_URL, HOME_NAME, LOGIN_URL, LOGIN_NAME, LAYOUT_NAME, REDIRECT_NAME, NOT_FOUND };
 
 export const constantRoutes: RouterConfigRaw[] = [
   {
-    path: LOGIN_URL,
-    name: "Login",
-    component: () => import("@/views/login/index.vue"),
-    meta: {
-      title: "登录",
-      hideInMenu: true,
-    },
-  },
-  {
-    path: "/redirect",
-    meta: { hideInMenu: true },
-    children: [
-      {
-        path: "/redirect/:path(.*)",
-        name: "Redirect",
-        component: () => import("@/layout/redirect.vue"),
-      },
-    ],
-  },
-  {
     path: "/",
-    name: "Layout",
+    name: LAYOUT_NAME,
     component: () => import("@/layout/index.vue"),
     redirect: HOME_URL,
     meta: { hideInMenu: true },
@@ -75,6 +54,42 @@ export const constantRoutes: RouterConfigRaw[] = [
       },
     ],
   },
+  {
+    path: LOGIN_URL,
+    name: LOGIN_NAME,
+    component: () => import("@/views/login/index.vue"),
+    meta: {
+      title: "登录",
+      hideInMenu: true,
+    },
+  },
+  {
+    path: LOGIN_URL,
+    name: LOGIN_NAME,
+    component: () => import("@/views/login/index.vue"),
+    meta: { title: "登录", hideInMenu: true, hideInBread: true, isFull: true },
+  },
+];
+
+export const errorRouter: RouterConfigRaw[] = [
+  {
+    path: "/403",
+    name: "403",
+    component: () => import("@/views/error/403.vue"),
+    meta: { title: "403 页面", hideInMenu: true, hideInBread: true, isFull: true },
+  },
+  {
+    path: "/404",
+    name: "404",
+    component: () => import("@/views/error/404.vue"),
+    meta: { title: "404 页面", hideInMenu: true, hideInBread: true, isFull: true },
+  },
+  {
+    path: "/500",
+    name: "500",
+    component: () => import("@/views/error/500.vue"),
+    meta: { title: "500 页面", hideInMenu: true, hideInBread: true, isFull: true },
+  },
 ];
 
 /**
@@ -82,7 +97,8 @@ export const constantRoutes: RouterConfigRaw[] = [
  */
 export const notFoundRouter = {
   path: "/:pathMatch(.*)*",
-  name: "notFound",
+  name: NOT_FOUND,
+  meta: { hideInMenu: true, hideInBread: true, isFull: true },
   redirect: { name: "404" },
 };
 
