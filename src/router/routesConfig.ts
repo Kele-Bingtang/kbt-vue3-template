@@ -31,6 +31,7 @@
  * @param meta.dynamicLevel ==> 动态路由可打开的最大数量，默认为空
  * @param meta.useI18n ==>  是否开启 i18n。默认读取全局的 routeUseI18n（src/config/settings.ts）
  * @param meta.useTooltip ==> 菜单的文字超出后，是否使用 el-toolTip 提示，仅针二级路由及以上生效。默认读取全局的 routeUseTooltip（src/config/settings.ts）
+ * @param render ==> 自定义 Render 菜单元素（TSX 语法）
  */
 
 import { HomeFilled } from "@element-plus/icons-vue";
@@ -39,6 +40,7 @@ import { HOME_URL, HOME_NAME, LOGIN_URL, LOGIN_NAME, LAYOUT_NAME, REDIRECT_NAME,
 export { HOME_URL, HOME_NAME, LOGIN_URL, LOGIN_NAME, LAYOUT_NAME, REDIRECT_NAME, NOT_FOUND };
 
 export const constantRoutes: RouterConfigRaw[] = [
+  // 建议把 LAYOUT_NAME 路由放在第一位
   {
     path: "/",
     name: LAYOUT_NAME,

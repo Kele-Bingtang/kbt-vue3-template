@@ -44,9 +44,7 @@ export const useRoutes = () => {
     // else routeList = getDynamicRouters(await getMenuList()); // 请求后台拿到菜单，并处理成路由
 
     // 缓存后台路由
-    if (cacheDynamicRoutes && !isCacheDynamicRoutes) {
-      useCache().setCacheDynamicRoutesKey(routeList);
-    }
+    if (cacheDynamicRoutes && !isCacheDynamicRoutes) useCache().setCacheDynamicRoutesKey(routeList);
 
     if (!routeList.length) {
       ElNotification({
