@@ -7,7 +7,7 @@ export * from "./layout/message";
 export * from "./layout/mittBus";
 export * from "./layout/scrollTo";
 export * from "./layout/themeTool";
-export * from "./layout/validate";
+export * from "./layout/is";
 export * from "./layout/log";
 
 import NProgress from "./nprogress";
