@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "description": "all components are settled here",
   "dependencies": {
-    "element-plus": "^2.7.3",
     "@element-plus/icons-vue": "^2.3.1",
-    "vue": "^3.4.27",
-    "vue-router": "^4.3.2"
+    "element-plus": "^2.9.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@iconify/vue": "^4.1.2"
+    "@iconify/vue": "^4.2.0"
   }
 }
