@@ -10,6 +10,7 @@ import { Auth, Role } from "@/components";
 import { Icon } from "@template/components";
 import { errorHandler, checkNeed } from "@/utils";
 import { log } from "@template/utils";
+import "@template/styles/tailwind.css";
 
 const app = createApp(App);
 
