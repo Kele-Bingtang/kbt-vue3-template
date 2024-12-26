@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/Kele-Bingtang/kbt-vue3-template/compare/v1.0.3...v1.1.0) (2024-12-26)
+
+### Features
+
+- 🚀 使用 mittBus 添加页面刷新功能 ([e80d1bb](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/e80d1bb475121f35cf314440d6fb38b5de24d4e7))
+- 🚀 新增主题色 ([0c0de39](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/0c0de39b5820657f611cdf289bc3b2d48ea751a5))
+- 🚀 依赖升级，Eslint 升级 9.17，sass 升级 1.83.0。修改文件兼容每个新版依赖 ([8141ee3](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/8141ee370b8e14b4c6fabb36f02a7ce7a9735d4b))
+
+### Bug Fixes
+
+- 🐞 路由重置函数优化。添加 403、404、500 路由。路由加载函数优化 ([5433a0a](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/5433a0aa8d6b60ffcb2fba36149ff9a7ef63d242))
+- 🐞 子路由 hideInMenun 全为 false 时报错问题修复 ([f24cdb7](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/f24cdb711074b7701425e88cd3afa0e2cc8565a8))
+
+### Styling
+
+- 🎨 添加注释 ([7bf3760](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/7bf37606d8648f5c0599843b335d85ab78c7bf2d))
+
 ### [1.0.3](https://github.com/Kele-Bingtang/kbt-vue3-template/compare/v1.0.2...v1.0.3) (2024-06-20)
 
 ### Features
