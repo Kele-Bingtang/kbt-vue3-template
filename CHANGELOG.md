@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/Kele-Bingtang/kbt-vue3-template/compare/v1.1.0...v1.1.1) (2024-12-26)
+
+### Features
+
+- 🚀 经典标签页的左右箭头去掉边框 ([015182d](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/015182ddfed1dcc7be048d8f415effb37d1ddc81))
+- 🚀 添加 @eslint/js 依赖 ([0445483](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/0445483be6e561adebcba0aec20bbc02f914b372))
+- 🚀 新增 taildwindcss 功能 ([a87b152](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/a87b1522e81de93c3d249e91e9963b2ea0a7779d))
+
+### Bug Fixes
+
+- 🐞 解决 TailWindcss 和 EP 样式冲突 ([a49c7ba](https://github.com/Kele-Bingtang/kbt-vue3-template/commit/a49c7ba234a9a4446cf90e37767d364aef1a142c))
+
 ## [1.1.0](https://github.com/Kele-Bingtang/kbt-vue3-template/compare/v1.0.3...v1.1.0) (2024-12-26)
 
 ### Features
