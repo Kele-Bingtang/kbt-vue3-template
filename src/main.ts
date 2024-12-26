@@ -8,6 +8,7 @@ import I18n from "@/languages";
 import "virtual:svg-icons-register";
 import { Icon, Auth, Role } from "@/components";
 import { errorHandler, checkNeed, log } from "@/utils";
+import "@/styles/tailwind.css";
 
 const app = createApp(App);
 
