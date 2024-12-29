@@ -65,6 +65,7 @@
     "@types/qs": "^6.9.17",
     "@types/sortablejs": "^1.15.8",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vitejs/plugin-vue-jsx": "^4.1.1",
     "@vue/tsconfig": "^0.7.0",
